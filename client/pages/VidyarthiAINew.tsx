@@ -1,14 +1,23 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   X,
   Send,
   Loader2,
   FileText,
-  Lightbulb,
+  Plus,
+  Search,
+  Upload,
+  Grid3x3,
+  BarChart3,
+  BookOpen,
+  CheckSquare,
+  MessageSquare,
+  MoreVertical,
+  Zap,
 } from "lucide-react";
-import PageLayout from "@/components/ui/page-layout";
 import { useLanguage } from "@/lib/LanguageContext";
 
 interface UploadedFile {
@@ -27,85 +36,28 @@ interface Message {
   timestamp: Date;
 }
 
-interface TopicOption {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  suggestions: string[];
-}
 
-const topicOptions: TopicOption[] = [
-  {
-    id: "studies",
-    title: "Study Materials",
-    description: "Upload textbooks, notes, or study guides",
-    icon: "📚",
-    suggestions: [
-      "Summarize the main concepts",
-      "Create flashcards for key terms",
-      "Generate a practice quiz",
-      "What are the main takeaways?",
-    ],
-  },
-  {
-    id: "research",
-    title: "Research Papers",
-    description: "Analyze academic or research documents",
-    icon: "🔬",
-    suggestions: [
-      "What is the methodology?",
-      "Summarize the findings",
-      "Extract key citations",
-      "What are the limitations?",
-    ],
-  },
-  {
-    id: "articles",
-    title: "Articles & News",
-    description: "Understand news articles or blog posts",
-    icon: "📰",
-    suggestions: [
-      "What is the main story?",
-      "Who are the key stakeholders?",
-      "What impact does this have?",
-      "Find supporting evidence",
-    ],
-  },
-  {
-    id: "technical",
-    title: "Technical Docs",
-    description: "Learn from technical documentation",
-    icon: "⚙️",
-    suggestions: [
-      "Explain like I'm 5",
-      "What are the use cases?",
-      "How do I implement this?",
-      "What are the best practices?",
-    ],
-  },
+const studyTools = [
+  { id: "mindmap", title: "Mind Map", icon: Grid3x3, color: "bg-blue-600", description: "Visual concept mapping" },
+  { id: "reports", title: "Reports", icon: BarChart3, color: "bg-purple-600", description: "Detailed analysis" },
+  { id: "flashcards", title: "Flashcards", icon: BookOpen, color: "bg-green-600", description: "Quick revision" },
+  { id: "quiz", title: "Quiz", icon: CheckSquare, color: "bg-orange-600", description: "Test your knowledge" },
+  { id: "study-partner", title: "Study Partner", icon: MessageSquare, color: "bg-indigo-600", description: "Talk with your AI study partner for help, motivation, and learning support.", route: "/study-partner" },
 ];
 
 export default function VidyarthiAINew() {
   const { language } = useLanguage();
-  const [stage, setStage] = useState<"topic-select" | "upload" | "chat">("topic-select");
-  const [selectedTopic, setSelectedTopic] = useState<TopicOption | null>(null);
+  const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedSuggestion, setSelectedSuggestion] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
-
-  const handleTopicSelect = (topic: TopicOption) => {
-    setSelectedTopic(topic);
-    setStage("upload");
-  };
 
   const handleFileUpload = (files: FileList) => {
     Array.from(files).forEach((file) => {
@@ -130,72 +82,35 @@ export default function VidyarthiAINew() {
     });
   };
 
-  const handleRemoveFile = (id: string) => setUploadedFiles((prev) => prev.filter((f) => f.id !== id));
-
-  const handleContinueToChat = () => {
-    if (uploadedFiles.length === 0) {
-      alert("Please upload at least one document");
-      return;
-    }
-    setStage("chat");
-    const welcomeMessage: Message = {
-      id: Math.random().toString(36).substr(2, 9),
-      type: "ai",
-      content: `Great! I've loaded your ${uploadedFiles.length} document(s). I can help you understand, summarize, and analyze them. Ask me anything or try one of the suggestions!`,
-      sources: uploadedFiles.map((f) => f.name),
-      timestamp: new Date(),
-    };
-    setMessages([welcomeMessage]);
+  const handleRemoveFile = (id: string) => {
+    setUploadedFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
   const generateAIResponse = (prompt: string): string => {
-    const responses: { [key: string]: string[] } = {
-      summarize: [
-        "Based on your document, here's a comprehensive summary: The document covers several key topics including...",
-        "I've analyzed your material and here are the main points...",
-      ],
-      quiz: [
-        "Here's a quiz to test your understanding:\n\n1. What are the main concepts discussed?",
-        "Let me create a quick quiz:\n\n1. Define the key terms",
-      ],
-      flashcards: [
-        "Key terms and definitions:\n\n• Concept 1: Definition and explanation",
-      ],
-      findings: [
-        "Key findings from your document:\n\n1. Primary discovery",
-      ],
-      explain: [
-        "Let me break this down simply:\n\nThink of it like a real-world example...",
-      ],
-    };
-
-    const keywords = prompt.toLowerCase();
-    let category = "summarize";
-    if (keywords.includes("quiz") || keywords.includes("test")) category = "quiz";
-    else if (keywords.includes("flashcard") || keywords.includes("terms")) category = "flashcards";
-    else if (keywords.includes("finding") || keywords.includes("result")) category = "findings";
-    else if (keywords.includes("explain") || keywords.includes("simple") || keywords.includes("5")) category = "explain";
-
-    const categoryResponses = responses[category] || responses.summarize;
-    return categoryResponses[Math.floor(Math.random() * categoryResponses.length)];
+    const responses: string[] = [
+      "That's a great question! Based on your materials, here's what I found...",
+      "Let me help you understand this better. Here's what the material says...",
+      "Excellent question! Here's a clear explanation...",
+      "I can definitely help with that. Here's what I discovered...",
+    ];
+    return responses[Math.floor(Math.random() * responses.length)];
   };
 
   const handleSendMessage = () => {
-    if (!inputValue.trim() && !selectedSuggestion) return;
-    const messageText = selectedSuggestion || inputValue;
+    if (!inputValue.trim()) return;
+
     const userMessage: Message = {
       id: Math.random().toString(36).substr(2, 9),
       type: "user",
-      content: messageText,
+      content: inputValue,
       timestamp: new Date(),
     };
     setMessages((prev) => [...prev, userMessage]);
     setInputValue("");
-    setSelectedSuggestion("");
     setIsLoading(true);
 
     setTimeout(() => {
-      const aiResponse = generateAIResponse(messageText);
+      const aiResponse = generateAIResponse(inputValue);
       const aiMessage: Message = {
         id: Math.random().toString(36).substr(2, 9),
         type: "ai",
@@ -205,7 +120,7 @@ export default function VidyarthiAINew() {
       };
       setMessages((prev) => [...prev, aiMessage]);
       setIsLoading(false);
-    }, 1200);
+    }, 1000);
   };
 
   const formatFileSize = (bytes: number) => {
@@ -217,132 +132,264 @@ export default function VidyarthiAINew() {
   };
 
   return (
-    <PageLayout>
-      {stage === "topic-select" ? (
-        <>
-          <div className="text-center mb-16">
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">📚 Vidyarthi AI</h1>
-            <p className="text-blue-200 text-lg mb-2">Your AI-powered study companion</p>
-            <p className="text-slate-400">Choose what you want to learn or study</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {topicOptions.map((topic) => (
-              <button key={topic.id} onClick={() => handleTopicSelect(topic)} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all text-left border-2 border-transparent hover:border-blue-400">
-                <div className="text-5xl mb-4">{topic.icon}</div>
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">{topic.title}</h3>
-                <p className="text-slate-600 mb-6">{topic.description}</p>
-                <div className="text-sm text-blue-600 font-semibold">Click to get started →</div>
-              </button>
-            ))}
-          </div>
-        </>
-      ) : stage === "upload" ? (
-        <>
-          <div className="mb-12">
-            <button onClick={() => setStage("topic-select")} className="mb-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold">← Back</button>
-
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="text-5xl">{selectedTopic?.icon}</div>
-                <div>
-                  <h2 className="text-3xl font-bold text-slate-800">{selectedTopic?.title}</h2>
-                  <p className="text-slate-600">{selectedTopic?.description}</p>
-                </div>
-              </div>
-
-              <div onClick={() => fileInputRef.current?.click()} className="border-2 border-dashed border-blue-300 rounded-xl p-12 text-center cursor-pointer hover:bg-blue-50 hover:border-blue-400 transition-all mb-8">
-                <div className="text-5xl mb-4">📤</div>
-                <h3 className="text-2xl font-bold text-slate-800 mb-2">Upload Your Documents</h3>
-                <p className="text-slate-600 mb-2">Click to browse or drag and drop</p>
-                <p className="text-sm text-slate-500">Supported formats: PDF, JPG, PNG (Max 10MB per file)</p>
-              </div>
-              <input ref={fileInputRef} type="file" multiple onChange={(e) => e.target.files && handleFileUpload(e.target.files)} title="Upload documents" aria-label="Upload documents" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
-
-              {uploadedFiles.length > 0 && (
-                <div className="mb-8">
-                  <h3 className="text-lg font-bold text-slate-800 mb-4">Uploaded Files ({uploadedFiles.length})</h3>
-                  <div className="space-y-3">
-                    {uploadedFiles.map((file) => (
-                      <div key={file.id} className="flex items-center justify-between bg-slate-50 p-4 rounded-lg border border-slate-200">
-                        <div className="flex items-center gap-3">
-                          <FileText className="w-6 h-6 text-blue-500" />
-                          <div>
-                            <p className="font-semibold text-slate-800">{file.name}</p>
-                            <p className="text-sm text-slate-500">{formatFileSize(file.size)}</p>
-                          </div>
-                        </div>
-                        <button onClick={() => handleRemoveFile(file.id)} title={`Remove ${file.name}`} aria-label={`Remove ${file.name}`} className="text-red-500 hover:text-red-700"><X className="w-5 h-5" /></button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              <button onClick={handleContinueToChat} disabled={uploadedFiles.length === 0} className="w-full px-8 py-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-slate-400 transition-colors font-bold text-lg">Continue to Chat →</button>
+    <div className="h-screen w-full bg-slate-900 flex flex-col">
+      {/* Header */}
+      <div className="bg-slate-900 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+        <button
+          onClick={() => navigate("/")}
+          className="flex items-center gap-2.5 group hover:opacity-80 transition-opacity"
+        >
+          {/* Animated logo icon */}
+          <div className="relative w-8 h-8">
+            <div
+              className="absolute inset-0 rounded-lg opacity-70 group-hover:opacity-100 transition-opacity duration-300"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4)",
+                boxShadow: "0 0 16px rgba(99,102,241,0.5)",
+              }}
+            />
+            <div className="relative w-full h-full rounded-lg flex items-center justify-center">
+              <span className="text-white font-black text-base leading-none">⚡</span>
             </div>
           </div>
-        </>
-      ) : (
-        <>
-          <button onClick={() => { setStage("topic-select"); setUploadedFiles([]); setMessages([]); }} className="mb-6 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold">← Start New Session</button>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <div className="lg:col-span-2 bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col h-[600px]">
-              <div className="flex-1 overflow-y-auto p-6 space-y-4">
+          {/* Brand text */}
+          <div className="hidden sm:flex flex-col leading-none">
+            <span
+              className="font-black text-lg tracking-tight"
+              style={{
+                background: "linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4)",
+                backgroundSize: "200% 200%",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Bharat AI
+            </span>
+          </div>
+        </button>
+        <div className="flex items-center gap-3">
+          <button className="text-slate-400 hover:text-white transition">
+            <Zap className="w-5 h-5" />
+          </button>
+          <select className="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold cursor-pointer">
+            <option>English</option>
+            <option>हिंदी</option>
+            <option>தமிழ்</option>
+          </select>
+          <button className="text-slate-400 hover:text-white transition">
+            <MoreVertical className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden flex">
+        {/* Left Sidebar - Sources */}
+        <div className="w-56 bg-slate-800 border-r border-slate-700 flex flex-col">
+          <div className="p-4 border-b border-slate-700">
+            <h2 className="text-white font-semibold text-sm">Sources</h2>
+          </div>
+
+          <div className="flex-1 overflow-y-auto p-4 space-y-3">
+            {/* Add Sources Button */}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full border border-dashed border-slate-600 hover:border-blue-500 rounded-lg py-3 px-3 text-center transition text-slate-300 hover:text-blue-400 text-sm font-medium flex items-center justify-center gap-2"
+            >
+              <Plus className="w-4 h-4" />
+              Add sources
+            </button>
+
+            {/* Deep Research Suggestion */}
+            <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm cursor-pointer hover:border-blue-500 transition">
+              <div className="flex items-start gap-2">
+                <Zap className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-white font-medium">Try Deep Research</p>
+                  <p className="text-slate-400 text-xs">for an in-depth report and new sources!</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Search */}
+            <div className="relative">
+              <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Search the web for new"
+                className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Filter Buttons */}
+            <div className="flex gap-2">
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
+                <div className="w-3 h-3 rounded-full bg-white" />
+                Web
+              </button>
+              <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
+                ⚡ Research
+              </button>
+            </div>
+
+            {/* Uploaded Files */}
+            {uploadedFiles.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs text-slate-400 font-semibold px-1">Uploaded Sources</p>
+                {uploadedFiles.map((file) => (
+                  <div
+                    key={file.id}
+                    className="bg-slate-700 border border-slate-600 rounded-lg p-2 text-xs group hover:border-blue-500 transition cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="text-slate-300 truncate font-medium">{file.name}</p>
+                      <button
+                        onClick={() => handleRemoveFile(file.id)}
+                        className="text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <p className="text-slate-500 text-xs">{formatFileSize(file.size)}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Info Box */}
+            <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-xs text-slate-300 mt-auto">
+              <FileText className="w-4 h-4 mb-2 text-slate-500" />
+              <p className="text-slate-400">Saved sources will appear here</p>
+              <p className="text-slate-500 text-xs mt-1">Click 'Add source' above to add PDFs, websites, text, videos, or audio files. Or import a file directly from Google Drive.</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Main Chat Area */}
+        <div className="flex-1 flex flex-col bg-slate-900">
+          {/* Chat Header */}
+          <div className="border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+            <h1 className="text-white font-semibold">Chat</h1>
+            <div className="flex items-center gap-2">
+              <button className="text-slate-400 hover:text-white transition p-2">
+                <Grid3x3 className="w-5 h-5" />
+              </button>
+              <button className="text-slate-400 hover:text-white transition p-2">
+                <MoreVertical className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Chat Content */}
+          <div className="flex-1 overflow-y-auto flex flex-col">
+            {messages.length === 0 ? (
+              <div className="flex-1 flex flex-col items-center justify-center gap-6">
+                <Upload className="w-16 h-16 text-slate-600" />
+                <div className="text-center">
+                  <h2 className="text-white text-lg font-semibold mb-2">Add a source to get started</h2>
+                  <p className="text-slate-400 text-sm mb-6">Upload documents, PDFs, or paste text</p>
+                </div>
+
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium text-sm transition"
+                >
+                  Upload a source
+                </button>
+
+                {/* Study Tools Grid */}
+                <div className="grid grid-cols-2 gap-3 mt-8">
+                  {studyTools.map((tool) => {
+                    const Icon = tool.icon;
+                    const extraClass = tool.id === "study-partner" ? "col-span-2" : "";
+                    return (
+                      <button
+                        key={tool.id}
+                        onClick={() => tool.route && navigate(tool.route)}
+                        className={`${extraClass} ${tool.color} text-white rounded-lg p-4 hover:opacity-90 transition flex flex-col items-center justify-center gap-2 min-h-24 text-left`}
+                      >
+                        <Icon className="w-6 h-6" />
+                        <span className="text-sm font-medium">{tool.title}</span>
+                        {tool.description && <span className="text-xs mt-1 opacity-90">{tool.description}</span>}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <p className="text-slate-500 text-xs mt-8">
+                  Upload a source to get started • {uploadedFiles.length} sources
+                </p>
+              </div>
+            ) : (
+              <div className="p-6 space-y-4">
                 {messages.map((msg) => (
-                  <div key={msg.id} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
-                    <div className={`max-w-xs lg:max-w-md p-4 rounded-lg ${msg.type === "user" ? "bg-blue-500 text-white" : "bg-slate-100 text-slate-800"}`}>
-                      <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.content}</p>
-                      {msg.sources && msg.type === "ai" && <p className="text-xs mt-2 opacity-70">Based on: {msg.sources.join(", ")}</p>}
+                  <div
+                    key={msg.id}
+                    className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                  >
+                    <div
+                      className={`max-w-md px-4 py-3 rounded-lg ${
+                        msg.type === "user"
+                          ? "bg-blue-600 text-white"
+                          : "bg-slate-700 text-slate-100"
+                      }`}
+                    >
+                      <p className="text-sm leading-relaxed">{msg.content}</p>
+                      {msg.sources && msg.type === "ai" && (
+                        <p className="text-xs mt-2 opacity-70">Based on: {msg.sources.join(", ")}</p>
+                      )}
                     </div>
                   </div>
                 ))}
-                {isLoading && (<div className="flex justify-start"><div className="bg-slate-100 text-slate-800 p-4 rounded-lg flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /><span className="text-sm">Thinking...</span></div></div>)}
-                <div ref={messagesEndRef} />
-              </div>
-
-              <div className="border-t p-4 space-y-4">
-                {selectedTopic && messages.length === 1 && (
-                  <div className="space-y-2">
-                    <p className="text-xs text-slate-600 font-semibold">Try asking:</p>
-                    <div className="grid grid-cols-2 gap-2">{selectedTopic.suggestions.slice(0,4).map((sugg, i) => (<button key={i} onClick={() => setSelectedSuggestion(sugg)} className="text-left text-xs p-2 rounded bg-blue-50 hover:bg-blue-100 text-blue-700 font-medium transition-colors">{sugg}</button>))}</div>
+                {isLoading && (
+                  <div className="flex justify-start">
+                    <div className="bg-slate-700 text-slate-100 px-4 py-3 rounded-lg flex items-center gap-2">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm">Thinking...</span>
+                    </div>
                   </div>
                 )}
-
-                <div className="flex gap-2">
-                  <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => e.key === "Enter" && handleSendMessage()} placeholder="Ask me anything about your documents..." className="flex-1 px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                  <button onClick={handleSendMessage} title="Send message" aria-label="Send message" disabled={isLoading || (!inputValue.trim() && !selectedSuggestion)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:bg-slate-400 transition-colors"><Send className="w-5 h-5" /></button>
-                </div>
+                <div ref={messagesEndRef} />
               </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="bg-white rounded-2xl shadow-xl p-6">
-                <h3 className="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2"><FileText className="w-5 h-5" />Your Documents</h3>
-                <div className="space-y-3">
-                  {uploadedFiles.map((file) => (
-                    <div key={file.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                      <p className="text-sm font-medium text-slate-800 truncate">{file.name}</p>
-                      <p className="text-xs text-slate-500">{formatFileSize(file.size)}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6">
-                <h3 className="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2"><Lightbulb className="w-5 h-5 text-yellow-500" />Tips</h3>
-                <ul className="text-sm text-slate-700 space-y-2">
-                  <li>✓ Ask specific questions</li>
-                  <li>✓ Request summaries</li>
-                  <li>✓ Create quizzes</li>
-                  <li>✓ Extract key points</li>
-                </ul>
-              </div>
-            </div>
+            )}
           </div>
-        </>
-      )}
-    </PageLayout>
+
+          {/* Input Area */}
+          {messages.length > 0 && (
+            <div className="border-t border-slate-700 p-4 bg-slate-900">
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+                  placeholder="Ask your study partner anything..."
+                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <button
+                  onClick={handleSendMessage}
+                  disabled={isLoading || !inputValue.trim()}
+                  className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 text-white rounded-lg transition disabled:cursor-not-allowed"
+                >
+                  <Send className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Hidden file input */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        multiple
+        onChange={(e) => e.target.files && handleFileUpload(e.target.files)}
+        className="hidden"
+        accept=".pdf,.jpg,.jpeg,.png"
+      />
+    </div>
   );
 }

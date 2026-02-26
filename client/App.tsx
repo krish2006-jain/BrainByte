@@ -11,6 +11,7 @@ import Landing from "./pages/Landing";
 import SarkariDost from "./pages/SarkariDost";
 import SevaSummary from "./pages/SevaSummary";
 import VidyarthiAI from "./pages/VidyarthiAI";
+import StudyPartner from "./pages/StudyPartner";
 import StepByStepGuides from "./pages/StepByStepGuides";
 import CheckDocuments from "./pages/CheckDocuments";
 import ErrorScanner from "./pages/ErrorScanner";
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/sarkari-dost" element={<SarkariDost />} />
               <Route path="/seva-summary" element={<SevaSummary />} />
               <Route path="/vidyarthi-ai" element={<VidyarthiAI />} />
+              <Route path="/study-partner" element={<StudyPartner />} />
               <Route path="/step-by-step-guides" element={<StepByStepGuides />} />
               <Route path="/check-documents" element={<CheckDocuments />} />
               <Route path="/error-scanner" element={<ErrorScanner />} />
