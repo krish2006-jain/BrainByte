@@ -174,6 +174,80 @@ const applications: ApplicationType[] = [
       },
     ],
   },
+  // newly added applications
+  {
+    id: "aadhaar-card",
+    name: "Aadhaar Card",
+    icon: "🆔",
+    description: "Apply for a new Aadhaar or update details",
+    documents: [
+      { id: "dob-proof", name: "Birth Certificate / 10th Marksheet", optional: false, description: "Proof of Date of Birth", tips: "" },
+      { id: "photo", name: "Passport Size Photograph", optional: false, description: "", tips: "" },
+      { id: "address-proof", name: "Address Proof", optional: false, description: "Electricity Bill / Rent Agreement", tips: "" },
+      { id: "id-proof", name: "Identity Proof", optional: false, description: "PAN Card / Passport / Voter ID", tips: "" },
+    ],
+  },
+  {
+    id: "birth-certificate",
+    name: "Birth Certificate",
+    icon: "👶",
+    description: "Register or request a birth certificate",
+    documents: [
+      { id: "hospital-record", name: "Hospital Birth Record / Discharge Summary", optional: false, description: "", tips: "" },
+      { id: "parents-aadhar", name: "Parents' Aadhaar Card", optional: false, description: "", tips: "" },
+      { id: "marriage-cert", name: "Parents' Marriage Certificate", optional: false, description: "", tips: "" },
+    ],
+  },
+  {
+    id: "marriage-certificate",
+    name: "Marriage Certificate",
+    icon: "💍",
+    description: "Register your marriage officially",
+    documents: [
+      { id: "bride-groom-aadhar", name: "Bride & Groom Aadhaar Card", optional: false, description: "", tips: "" },
+      { id: "age-proof", name: "Birth Certificate / Age Proof", optional: false, description: "", tips: "" },
+      { id: "photos", name: "Passport Size Photographs", optional: false, description: "", tips: "" },
+      { id: "invitation", name: "Marriage Invitation Card / Proof of Marriage", optional: false, description: "", tips: "" },
+      { id: "witness-id", name: "Witness ID Proof (2 witnesses)", optional: false, description: "", tips: "" },
+    ],
+  },
+  {
+    id: "domicile-certificate",
+    name: "Domicile Certificate",
+    icon: "🏠",
+    description: "Apply for proof of residence in a state",
+    documents: [
+      { id: "aadhar", name: "Aadhaar Card", optional: false, description: "", tips: "" },
+      { id: "address-proof", name: "Address Proof (Electricity Bill / Ration Card)", optional: false, description: "", tips: "" },
+      { id: "birth-school", name: "Birth Certificate / School Leaving Certificate", optional: false, description: "", tips: "" },
+      { id: "photo", name: "Passport Size Photograph", optional: false, description: "", tips: "" },
+    ],
+  },
+  {
+    id: "income-certificate",
+    name: "Income Certificate",
+    icon: "💰",
+    description: "Apply for proof of annual income",
+    documents: [
+      { id: "aadhar", name: "Aadhaar Card", optional: false, description: "", tips: "" },
+      { id: "salary-slip", name: "Salary Slip / Income Proof", optional: false, description: "", tips: "" },
+      { id: "address-proof", name: "Address Proof", optional: false, description: "", tips: "" },
+      { id: "photo", name: "Passport Size Photograph", optional: false, description: "", tips: "" },
+    ],
+  },
+  {
+    id: "ration-card",
+    name: "Ration Card",
+    icon: "🍛",
+    description: "Apply for a new ration card or update family details",
+    documents: [
+      { id: "aadhar-family", name: "Aadhaar Card of all family members", optional: false, description: "", tips: "" },
+      { id: "address-proof", name: "Address Proof (Electricity Bill / Rent Agreement)", optional: false, description: "", tips: "" },
+      { id: "income-cert", name: "Income Certificate", optional: false, description: "", tips: "" },
+      { id: "photos", name: "Passport Size Photographs", optional: false, description: "", tips: "" },
+      { id: "bank-passbook", name: "Bank Passbook Copy", optional: false, description: "", tips: "" },
+    ],
+  },
 ];
 
 export default function CheckDocuments() {
