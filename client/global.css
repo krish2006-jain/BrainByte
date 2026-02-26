@@ -1,0 +1,356 @@
+/** @import must precede all other statements */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================================
+   AI-THEMED ANIMATIONS
+   ============================================================ */
+
+@keyframes aiGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(99, 102, 241, 0.15);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(99, 102, 241, 0.7), 0 0 80px rgba(99, 102, 241, 0.3);
+  }
+}
+
+@keyframes floatUp {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-14px) rotate(1deg); }
+  66%       { transform: translateY(-7px) rotate(-1deg); }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Orb drift */
+@keyframes orb {
+  0%, 100% { transform: translate(0, 0); opacity: 0.25; }
+  25%       { transform: translate(120px, -70px); opacity: 0.4; }
+  50%       { transform: translate(60px, 130px); opacity: 0.5; }
+  75%       { transform: translate(-100px, 60px); opacity: 0.35; }
+}
+
+/* Orb drift — mirrored */
+@keyframes orb2 {
+  0%, 100% { transform: translate(0, 0); opacity: 0.2; }
+  25%       { transform: translate(-100px, 80px); opacity: 0.35; }
+  50%       { transform: translate(-60px, -120px); opacity: 0.45; }
+  75%       { transform: translate(90px, -50px); opacity: 0.3; }
+}
+
+/* Neural node pulse */
+@keyframes neuralPulse {
+  0%, 100% { opacity: 0.15; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(1.5); }
+}
+
+/* Scan line sweep */
+@keyframes scanLine {
+  0%   { top: -2%; opacity: 0; }
+  5%   { opacity: 1; }
+  95%  { opacity: 0.6; }
+  100% { top: 102%; opacity: 0; }
+}
+
+/* Rotating border / spinner */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Typing cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Data stream lines */
+@keyframes dataStream {
+  0%   { transform: translateY(-100%); opacity: 0; }
+  10%  { opacity: 0.6; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* Gradient text animation */
+@keyframes textGradient {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+
+/* Input focus glow */
+@keyframes inputGlow {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4); }
+  50%       { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.7), 0 0 16px rgba(99, 102, 241, 0.3); }
+}
+
+/* ============================================================
+   ANIMATION CLASSES
+   ============================================================ */
+
+.animate-ai-glow     { animation: aiGlow 3s ease-in-out infinite; }
+.animate-float       { animation: floatUp 6s ease-in-out infinite; }
+.animate-slide-up    { animation: slideInUp 0.6s ease forwards; }
+.animate-slide-down  { animation: slideInDown 0.6s ease forwards; }
+.animate-fade-in     { animation: fadeIn 0.5s ease forwards; }
+.animate-scale-in    { animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.animate-gradient    { animation: gradientShift 4s ease infinite; background-size: 200% 200%; }
+.animate-spin-slow   { animation: spin 8s linear infinite; }
+.animate-blink       { animation: blink 1s step-end infinite; }
+
+/* Orb animation selectors */
+[data-ai="orb1"] { animation: orb  22s infinite ease-in-out !important; }
+[data-ai="orb2"] { animation: orb2 28s infinite ease-in-out 4s !important; }
+[data-ai="orb3"] { animation: orb  32s infinite ease-in-out 10s !important; }
+[data-ai="orb4"] { animation: orb2 18s infinite ease-in-out 7s !important; }
+
+/* Scan line element */
+[data-ai="scan"] {
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
+  animation: scanLine 8s linear infinite;
+  pointer-events: none;
+}
+
+/* Neural nodes */
+[data-ai^="node"] {
+  animation: neuralPulse 3s ease-in-out infinite;
+}
+[data-ai="node2"] { animation-delay: 1s; }
+[data-ai="node3"] { animation-delay: 2s; }
+[data-ai="node4"] { animation-delay: 0.5s; }
+[data-ai="node5"] { animation-delay: 1.5s; }
+[data-ai="node6"] { animation-delay: 2.5s; }
+
+/* Data stream lines */
+[data-ai^="stream"] {
+  position: absolute;
+  width: 1px;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.6), transparent);
+  animation: dataStream 6s linear infinite;
+}
+[data-ai="stream2"] { animation-delay: 2s; animation-duration: 7s; }
+[data-ai="stream3"] { animation-delay: 4s; animation-duration: 5s; }
+[data-ai="stream4"] { animation-delay: 1s; animation-duration: 8s; }
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-light {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textGradient 4s ease infinite;
+}
+
+/* Focus input glow */
+.input-glow:focus {
+  animation: inputGlow 2s ease-in-out infinite;
+}
+
+/* Shimmer button effect */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+  transform: translateX(-100%);
+}
+.btn-shimmer:hover::after {
+  animation: shimmer 0.6s ease;
+}
+
+/* ============================================================
+   CSS VARIABLES (THEME TOKENS)
+   ============================================================ */
+
+@layer base {
+  :root {
+    /* Dark mode (default) */
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+
+    --card: 224 71% 7%;
+    --card-foreground: 213 31% 91%;
+
+    --popover: 224 71% 7%;
+    --popover-foreground: 213 31% 91%;
+
+    --primary: 213 31% 91%;
+    --primary-foreground: 224 71% 4%;
+
+    --secondary: 222 47% 15%;
+    --secondary-foreground: 213 31% 91%;
+
+    --muted: 223 47% 18%;
+    --muted-foreground: 215 20% 60%;
+
+    --accent: 216 34% 17%;
+    --accent-foreground: 213 31% 91%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 213 31% 91%;
+
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 224 76% 60%;
+
+    --radius: 0.6rem;
+
+    /* Feature card colors */
+    --card-blue: 224 76% 60%;
+    --card-blue-dark: 224 76% 45%;
+    --card-green: 142 71% 45%;
+    --card-green-dark: 142 71% 32%;
+    --card-orange: 39 100% 56%;
+    --card-orange-dark: 39 100% 42%;
+
+    --sidebar-background: 224 71% 5%;
+    --sidebar-foreground: 213 31% 88%;
+    --sidebar-primary: 224 76% 60%;
+    --sidebar-primary-foreground: 213 31% 91%;
+    --sidebar-accent: 222 47% 15%;
+    --sidebar-accent-foreground: 213 31% 91%;
+    --sidebar-border: 216 34% 17%;
+    --sidebar-ring: 224 76% 60%;
+  }
+
+  /* Light mode — applied when html has .light class */
+  .light {
+    --background: 220 33% 97%;
+    --foreground: 224 71% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 71% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71% 8%;
+
+    --primary: 224 71% 8%;
+    --primary-foreground: 220 33% 97%;
+
+    --secondary: 220 14% 92%;
+    --secondary-foreground: 224 71% 8%;
+
+    --muted: 220 14% 90%;
+    --muted-foreground: 220 14% 44%;
+
+    --accent: 220 14% 90%;
+    --accent-foreground: 224 71% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 220 33% 97%;
+
+    --border: 220 13% 87%;
+    --input: 220 13% 87%;
+    --ring: 224 76% 52%;
+
+    --card-blue: 224 76% 52%;
+    --card-blue-dark: 224 76% 38%;
+    --card-green: 142 71% 40%;
+    --card-green-dark: 142 71% 28%;
+    --card-orange: 39 100% 48%;
+    --card-orange-dark: 39 100% 35%;
+
+    --sidebar-background: 220 33% 95%;
+    --sidebar-foreground: 224 71% 8%;
+    --sidebar-primary: 224 76% 52%;
+    --sidebar-primary-foreground: 220 33% 97%;
+    --sidebar-accent: 220 14% 90%;
+    --sidebar-accent-foreground: 224 71% 8%;
+    --sidebar-border: 220 13% 87%;
+    --sidebar-ring: 224 76% 52%;
+  }
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Outfit', 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  :where(p, span, li, h1, h2, h3, h4, h5, h6, a, button, label, td, th) {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  pre, code {
+    overflow-x: auto;
+    white-space: pre;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  }
+}
