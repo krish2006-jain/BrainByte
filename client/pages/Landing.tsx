@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import { useTheme } from "@/lib/ThemeContext";
 import Navigation from "@/components/Navigation";
+import { ArchitectureModal } from "@/components/ArchitectureModal";
+import { SystemStatusBadge } from "@/components/SystemStatusBadge";
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Zap, Shield, BookOpen } from "lucide-react";
 
 type AuthMode = "initial" | "login" | "signup";
@@ -251,6 +253,7 @@ export default function Landing() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [showArchitecture, setShowArchitecture] = useState(false);
 
   const isDark = theme === "dark";
 
@@ -325,7 +328,10 @@ export default function Landing() {
       <AIBackground isDark={isDark} />
 
       <div className="relative z-10 min-h-screen flex flex-col">
-        <Navigation showAuth={true} />
+        <div className="flex items-center justify-between px-4 sm:px-6 lg:px-8 py-4">
+          <Navigation showAuth={true} />
+          <SystemStatusBadge showDetails={true} />
+        </div>
 
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-12">
           <div className="max-w-6xl mx-auto">
@@ -369,11 +375,16 @@ export default function Landing() {
                     Intelligent services for modern India
                   </p>
                   <p
+                    className="text-base sm:text-lg font-medium mb-6 max-w-3xl mx-auto"
+                    style={{ color: isDark ? "rgba(99,102,241,0.8)" : "rgba(99,102,241,0.75)" }}
+                  >
+                    One unified AI platform for students, healthcare, and government document intelligence.
+                  </p>
+                  <p
                     className="text-sm max-w-xl mx-auto mb-10"
                     style={{ color: isDark ? "rgba(100,116,139,0.9)" : "rgba(100,116,139,0.85)" }}
                   >
-                    A comprehensive platform empowering citizens with AI-powered tools for government services,
-                    document analysis, and personalized learning.
+                    Empowering citizens with intelligent tools for document analysis, government services, and personalized learning.
                   </p>
 
                   {/* CTA Buttons */}
@@ -410,6 +421,21 @@ export default function Landing() {
                     >
                       <User className="w-4 h-4" />
                       Continue as Guest
+                    </button>
+                  </div>
+
+                  {/* Architecture Button */}
+                  <div className="flex justify-center mt-6">
+                    <button
+                      onClick={() => setShowArchitecture(true)}
+                      className="flex items-center justify-center gap-2 px-6 py-2.5 font-medium rounded-lg text-sm transition-all duration-200 hover:scale-105 border"
+                      style={{
+                        borderColor: isDark ? "rgba(139,92,246,0.3)" : "rgba(139,92,246,0.25)",
+                        color: isDark ? "rgba(196,181,253,0.9)" : "rgba(139,92,246,0.85)",
+                        background: isDark ? "rgba(139,92,246,0.08)" : "rgba(139,92,246,0.05)",
+                      }}
+                    >
+                      🏗️ View Architecture
                     </button>
                   </div>
                 </div>
@@ -665,6 +691,9 @@ export default function Landing() {
           </div>
         </main>
       </div>
+
+      {/* Architecture Modal */}
+      <ArchitectureModal isOpen={showArchitecture} onClose={() => setShowArchitecture(false)} />
     </div>
   );
 }

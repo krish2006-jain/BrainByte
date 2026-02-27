@@ -3,6 +3,8 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { getTranslation } from "@/lib/translations";
 import Navigation from "@/components/Navigation";
 import PageLayout from "@/components/ui/page-layout";
+import { FeatureDescriptionCard } from "@/components/FeatureDescriptionCard";
+import { useLoading } from "@/lib/LoadingContext";
 import { Upload, Send, FileText, X, MessageCircle, TrendingUp } from "lucide-react";
 
 interface Message {
@@ -127,13 +129,26 @@ Ask specific questions about values, results, or what they mean for your health.
     <PageLayout>
       <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-8">
         {/* Header */}
-        <div className="max-w-7xl mx-auto mb-10">
+        <div className="max-w-7xl mx-auto mb-6">
           <h1 className="text-4xl font-bold mb-2 text-white">
             {getTranslation(language, "features.sevasummary.title")}
           </h1>
-          <p className="text-blue-200 text-lg">
+          <p className="text-blue-200 text-lg mb-6">
             {getTranslation(language, "features.sevasummary.subtitle")}
           </p>
+
+          {/* Feature Description Card */}
+          <FeatureDescriptionCard
+            title="🏥 Seva Summary AI"
+            description="Intelligent analysis of medical reports and government documents"
+            features={[
+              "Upload medical and government documents",
+              "AI-powered instant summarization",
+              "Key information extraction and highlights",
+              "Chat with AI for detailed explanations",
+            ]}
+            icon="📋"
+          />
         </div>
 
         {/* Three Column Layout */}

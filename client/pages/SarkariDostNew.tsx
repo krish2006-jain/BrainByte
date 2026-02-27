@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import PageLayout from "@/components/ui/page-layout";
 import { useLanguage } from "@/lib/LanguageContext";
+import { FeatureDescriptionCard } from "@/components/FeatureDescriptionCard";
+import { useLoading } from "@/lib/LoadingContext";
 
 interface UploadedFile {
   id: string;
@@ -171,6 +173,21 @@ export default function SarkariDost() {
         </div>
         <p className="text-blue-100 text-sm">Your Digital Guide to Government Services</p>
         <div className="bg-white bg-opacity-20 backdrop-blur px-4 py-2 rounded-full text-white text-sm font-medium">हिंदी / English</div>
+      </div>
+
+      {/* Feature Description Card */}
+      <div className="mb-12">
+        <FeatureDescriptionCard
+          title="🏛️ Sarkari Dost AI"
+          description="Navigate government processes and document requirements with ease"
+          features={[
+            "Service-specific document checklists",
+            "Automatic document verification",
+            "Error detection and corrections",
+            "Guided step-by-step instructions",
+          ]}
+          icon="📄"
+        />
       </div>
 
       {/* Main Title with Gold Accent */}

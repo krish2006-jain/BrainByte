@@ -118,6 +118,88 @@
   50%       { box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.7), 0 0 16px rgba(99, 102, 241, 0.3); }
 }
 
+/* Progress bar animation */
+@keyframes progress {
+  0% { width: 0%; }
+  50% { width: 70%; }
+  100% { width: 100%; }
+}
+
+/* Modal entrance */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Smooth hover lift */
+@keyframes hoverLift {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* Card glow on hover */
+@keyframes cardGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0); }
+  50% { box-shadow: 0 0 20px 4px rgba(99, 102, 241, 0.3); }
+}
+
+/* Button ripple effect */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Success checkmark */
+@keyframes successCheck {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Toast slide in */
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(400px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Pulse glow */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+  }
+  50% {
+    opacity: 0.8;
+    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+}
+
 /* ============================================================
    ANIMATION CLASSES
    ============================================================ */
@@ -131,6 +213,16 @@
 .animate-gradient    { animation: gradientShift 4s ease infinite; background-size: 200% 200%; }
 .animate-spin-slow   { animation: spin 8s linear infinite; }
 .animate-blink       { animation: blink 1s step-end infinite; }
+
+/* New micro-interaction classes */
+.animate-progress    { animation: progress 2s ease-out forwards; }
+.animate-modal       { animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+.animate-lift        { animation: hoverLift 0.3s ease forwards; }
+.animate-glow        { animation: cardGlow 2s ease-in-out infinite; }
+.animate-ripple      { animation: ripple 0.6s ease-out; }
+.animate-check       { animation: successCheck 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.animate-toast       { animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.animate-pulse-glow  { animation: pulseGlow 2s ease-in-out infinite; }
 
 /* Orb animation selectors */
 [data-ai="orb1"] { animation: orb  22s infinite ease-in-out !important; }
