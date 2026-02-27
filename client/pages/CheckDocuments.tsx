@@ -573,7 +573,7 @@ export default function CheckDocuments() {
             <div className="mt-12 pt-8 border-t-2 border-slate-200">
               <div className="bg-blue-50 rounded-xl p-8 text-center">
                 <p className="text-slate-700 mb-4">Need more help?</p>
-                <button className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold">View Step-by-Step Guide</button>
+                <button onClick={() => navigate("/step-by-step-guides")} className="px-8 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold">View Step-by-Step Guide</button>
               </div>
             </div>
           </div>
