@@ -1,0 +1,574 @@
+/* ============================================================
+   INDIAN TEMPLE THEME — Demo Page CSS
+   Color Palette:
+     Saffron:   #FF6B00 / #FF9933 (Bharat flag inspiration)
+     Maroon:    #800020 / #6B0F1A (temple walls)
+     Gold:      #D4A017 / #C9A84C (temple ornaments)
+     Deep Red:  #B22222 (kumkum / tilak)
+     Ivory:     #FFF8E7 / #FFFDF5 (marble)
+     Navy:      #1A0A2E / #0D0221 (night sky)
+   ============================================================ */
+
+/* ── Mandala SVG Background ─────────────────────────────────── */
+.indian-bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.indian-bg__gradient-dark {
+    background: linear-gradient(160deg, #0D0221 0%, #1A0A2E 30%, #2D1B3D 60%, #1A0A2E 100%);
+}
+
+.indian-bg__gradient-light {
+    background: linear-gradient(160deg, #FFFDF5 0%, #FFF5E6 40%, #FFF0D4 70%, #FFF8E7 100%);
+}
+
+/* Mandala rotating pattern — SVG inline will be used in JSX */
+.mandala-ring {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.04;
+    animation: mandalaRotate 120s linear infinite;
+}
+
+.mandala-ring--reverse {
+    animation-direction: reverse;
+    animation-duration: 90s;
+}
+
+@keyframes mandalaRotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Diya (lamp) flicker */
+@keyframes diyaFlicker {
+
+    0%,
+    100% {
+        opacity: 0.7;
+        transform: scale(1) translateY(0);
+    }
+
+    25% {
+        opacity: 1;
+        transform: scale(1.04) translateY(-1px);
+    }
+
+    50% {
+        opacity: 0.85;
+        transform: scale(0.98) translateY(1px);
+    }
+
+    75% {
+        opacity: 0.95;
+        transform: scale(1.02) translateY(-0.5px);
+    }
+}
+
+.diya-glow {
+    animation: diyaFlicker 3s ease-in-out infinite;
+}
+
+/* Temple arch shape */
+.temple-arch {
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+/* ── Glassmorphism (Indian tinted) ──────────────────────────── */
+.indian-glass-dark {
+    background: rgba(26, 10, 46, 0.55);
+    backdrop-filter: blur(24px) saturate(1.4);
+    -webkit-backdrop-filter: blur(24px) saturate(1.4);
+    border: 1px solid rgba(212, 160, 23, 0.12);
+}
+
+.indian-glass-light {
+    background: rgba(255, 253, 245, 0.7);
+    backdrop-filter: blur(20px) saturate(1.3);
+    -webkit-backdrop-filter: blur(20px) saturate(1.3);
+    border: 1px solid rgba(212, 160, 23, 0.2);
+}
+
+/* Gold shimmer text */
+.gold-text {
+    background: linear-gradient(135deg, #D4A017 0%, #F5D060 40%, #C9A84C 60%, #D4A017 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: goldShimmer 4s ease infinite;
+}
+
+@keyframes goldShimmer {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Saffron gradient text */
+.saffron-text {
+    background: linear-gradient(135deg, #FF6B00 0%, #FF9933 40%, #FFB347 60%, #FF6B00 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: goldShimmer 5s ease infinite;
+}
+
+/* ── Card Hover Lift ────────────────────────────────────────── */
+.indian-card {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow 0.35s ease;
+}
+
+.indian-card:hover {
+    transform: translateY(-6px) scale(1.015);
+}
+
+/* ── Rangoli border decoration ──────────────────────────────── */
+.rangoli-border {
+    position: relative;
+}
+
+.rangoli-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    padding: 2px;
+    background: linear-gradient(135deg, #D4A017, #FF6B00, #B22222, #D4A017);
+    background-size: 300% 300%;
+    animation: rangoliBorder 6s ease infinite;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.rangoli-border:hover::before {
+    opacity: 1;
+}
+
+@keyframes rangoliBorder {
+
+    0%,
+    100% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ── Dot pattern overlay ────────────────────────────────────── */
+.dot-pattern {
+    background-image: radial-gradient(rgba(212, 160, 23, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+.dot-pattern-light {
+    background-image: radial-gradient(rgba(212, 160, 23, 0.12) 1px, transparent 1px);
+    background-size: 24px 24px;
+}
+
+/* ── Ornamental Divider ─────────────────────────────────────── */
+.ornament-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.ornament-divider__line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 160, 23, 0.5), transparent);
+}
+
+.ornament-divider__diamond {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    background: linear-gradient(135deg, #D4A017, #FF9933);
+    flex-shrink: 0;
+}
+
+/* ── Feature icon container ─────────────────────────────────── */
+.feature-icon-ring {
+    position: relative;
+}
+
+.feature-icon-ring::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px dashed rgba(212, 160, 23, 0.3);
+    animation: mandalaRotate 20s linear infinite;
+}
+
+/* ── Floating particles (diyas) ─────────────────────────────── */
+@keyframes floatParticle {
+
+    0%,
+    100% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.3;
+    }
+
+    25% {
+        transform: translateY(-30px) translateX(10px);
+        opacity: 0.6;
+    }
+
+    50% {
+        transform: translateY(-15px) translateX(-8px);
+        opacity: 0.5;
+    }
+
+    75% {
+        transform: translateY(-40px) translateX(5px);
+        opacity: 0.35;
+    }
+}
+
+.float-particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD700, #FF6B00);
+    animation: floatParticle 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* ── Responsive ─────────────────────────────────────────────── */
+@media (max-width: 640px) {
+    .mandala-ring {
+        display: none;
+        /* hide heavy mandala on mobile for performance */
+    }
+}
+
+/* ── Scroll-Triggered Reveal System ─────────────────────────── */
+/* Elements start hidden, animate in when .is-visible is added via IntersectionObserver */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Stagger delays for children */
+.scroll-reveal.delay-1 {
+    transition-delay: 0.1s;
+}
+
+.scroll-reveal.delay-2 {
+    transition-delay: 0.2s;
+}
+
+.scroll-reveal.delay-3 {
+    transition-delay: 0.3s;
+}
+
+.scroll-reveal.delay-4 {
+    transition-delay: 0.4s;
+}
+
+.scroll-reveal.delay-5 {
+    transition-delay: 0.5s;
+}
+
+/* Slide-from-left variant */
+.scroll-reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Scale-up variant */
+.scroll-reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+}
+
+.scroll-reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Initial page load animation (no IntersectionObserver needed) */
+.reveal-up {
+    animation: revealUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes revealUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── Sacred Heartbeat / Temple Pulse ───────────────────────── */
+/* A rhythmic breathing line that pulses like a living temple */
+@keyframes sacredPulse {
+    0% {
+        transform: scaleX(0.6) scaleY(0.3);
+        opacity: 0.2;
+    }
+
+    8% {
+        transform: scaleX(1.0) scaleY(1.0);
+        opacity: 0.8;
+    }
+
+    16% {
+        transform: scaleX(0.75) scaleY(0.5);
+        opacity: 0.3;
+    }
+
+    24% {
+        transform: scaleX(1.1) scaleY(1.2);
+        opacity: 1;
+    }
+
+    40% {
+        transform: scaleX(0.65) scaleY(0.35);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: scaleX(0.6) scaleY(0.3);
+        opacity: 0.2;
+    }
+}
+
+.sacred-heartbeat {
+    animation: sacredPulse 3s ease-in-out infinite;
+    transform-origin: center center;
+}
+
+/* Heartbeat line — the rhythmic wave */
+@keyframes heartbeatLine {
+
+    0%,
+    100% {
+        d: path("M0,25 Q25,25 50,25 T100,25 T150,25 T200,25 T250,25 T300,25");
+    }
+
+    10% {
+        d: path("M0,25 Q25,10 50,25 T100,25 T150,25 T200,25 T250,25 T300,25");
+    }
+
+    15% {
+        d: path("M0,25 Q25,25 50,5 Q62,40 75,25 T150,25 T200,25 T250,25 T300,25");
+    }
+
+    20% {
+        d: path("M0,25 Q25,25 50,25 Q75,15 100,25 T150,25 T200,25 T250,25 T300,25");
+    }
+
+    30% {
+        d: path("M0,25 Q25,25 50,25 T100,25 Q125,8 150,25 Q162,38 175,25 T250,25 T300,25");
+    }
+
+    40% {
+        d: path("M0,25 Q25,25 50,25 T100,25 T150,25 Q175,20 200,25 T250,25 T300,25");
+    }
+}
+
+.heartbeat-path {
+    animation: heartbeatLine 3s ease-in-out infinite;
+}
+
+/* Glow behind the heartbeat */
+@keyframes heartbeatGlow {
+
+    0%,
+    40%,
+    100% {
+        opacity: 0.1;
+        filter: blur(8px);
+    }
+
+    10%,
+    15% {
+        opacity: 0.5;
+        filter: blur(4px);
+    }
+
+    25%,
+    30% {
+        opacity: 0.4;
+        filter: blur(5px);
+    }
+}
+
+.heartbeat-glow {
+    animation: heartbeatGlow 3s ease-in-out infinite;
+}
+
+/* ── Section Transition Fades ──────────────────────────────── */
+.section-fade-top {
+    position: relative;
+}
+
+.section-fade-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom,
+            var(--section-fade-color, transparent),
+            transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.section-fade-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to top,
+            var(--section-fade-color, transparent),
+            transparent);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ── Lotus pulse ────────────────────────────────────────────── */
+@keyframes lotusPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(212, 160, 23, 0.3));
+    }
+
+    50% {
+        transform: scale(1.08);
+        filter: drop-shadow(0 0 20px rgba(212, 160, 23, 0.6));
+    }
+}
+
+.lotus-pulse {
+    animation: lotusPulse 4s ease-in-out infinite;
+}
+
+/* Stats counter */
+.stat-value {
+    font-variant-numeric: tabular-nums;
+}
+
+/* Temple pillars gradient */
+.pillar-gradient-dark {
+    background: linear-gradient(180deg, rgba(212, 160, 23, 0.08) 0%, transparent 100%);
+}
+
+.pillar-gradient-light {
+    background: linear-gradient(180deg, rgba(212, 160, 23, 0.12) 0%, transparent 100%);
+}
+
+/* ── Regal section spacing ──────────────────────────────────── */
+.regal-section {
+    position: relative;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+@media (min-width: 640px) {
+    .regal-section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    .regal-section {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+}
+
+/* ── Temple column side decorations ─────────────────────────── */
+.temple-columns {
+    position: relative;
+}
+
+.temple-columns::before,
+.temple-columns::after {
+    content: '';
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    width: 1px;
+    background: linear-gradient(to bottom,
+            transparent,
+            rgba(212, 160, 23, 0.15),
+            rgba(212, 160, 23, 0.25),
+            rgba(212, 160, 23, 0.15),
+            transparent);
+}
+
+.temple-columns::before {
+    left: 0;
+}
+
+.temple-columns::after {
+    right: 0;
+}
+
+@media (max-width: 768px) {
+
+    .temple-columns::before,
+    .temple-columns::after {
+        display: none;
+    }
+}

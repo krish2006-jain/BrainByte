@@ -16,6 +16,7 @@ import StepByStepGuides from "./pages/StepByStepGuides";
 import CheckDocuments from "./pages/CheckDocuments";
 import ErrorScanner from "./pages/ErrorScanner";
 import NotFound from "./pages/NotFound";
+import IndianDemo from "./pages/IndianDemo";
 import { LanguageProvider } from "./lib/LanguageContext";
 import { AuthProvider } from "./lib/AuthContext";
 import { ThemeProvider } from "./lib/ThemeContext";
@@ -42,6 +43,7 @@ const AppRoutes = () => {
           <Route path="/step-by-step-guides" element={<StepByStepGuides />} />
           <Route path="/check-documents" element={<CheckDocuments />} />
           <Route path="/error-scanner" element={<ErrorScanner />} />
+          <Route path="/demo-indian" element={<IndianDemo />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

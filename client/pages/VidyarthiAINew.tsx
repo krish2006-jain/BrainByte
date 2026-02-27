@@ -332,11 +332,10 @@ export default function VidyarthiAINew() {
                     className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}
                   >
                     <div
-                      className={`max-w-md px-4 py-3 rounded-lg ${
-                        msg.type === "user"
-                          ? "bg-blue-600 text-white"
-                          : "bg-slate-700 text-slate-100"
-                      }`}
+                      className={`max-w-md px-4 py-3 rounded-lg ${msg.type === "user"
+                        ? "bg-blue-600 text-white"
+                        : "bg-slate-700 text-slate-100"
+                        }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.content}</p>
                       {msg.sources && msg.type === "ai" && (

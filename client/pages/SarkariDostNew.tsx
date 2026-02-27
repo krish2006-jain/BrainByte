@@ -5,9 +5,6 @@ import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import PageLayout from "@/components/ui/page-layout";
 import { useLanguage } from "@/lib/LanguageContext";
-import { useTranslation } from "@/hooks/useTranslation";
-import { FeatureDescriptionCard } from "@/components/FeatureDescriptionCard";
-import { useLoading } from "@/lib/LoadingContext";
 
 interface UploadedFile {
   id: string;
@@ -24,92 +21,101 @@ const colorConfig = {
 };
 
 export default function SarkariDost() {
-  const { language } = useLanguage();
-  const t = useTranslation();
+  const { t } = useLanguage();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
-  const [selectedService, setSelectedService] = useState("");
+
+  // documents used by the assistant logic
+  const allDocuments = [
+    "Aadhaar Card",
+    "PAN Card",
+    "Driving License",
+    "Passport",
+    "Birth Certificate",
+    "Marriage Certificate",
+    "Domicile Certificate",
+    "Income Certificate",
+    "Ration Card",
+  ];
+
+  // service options for dropdown
+  const serviceOptions = [
+    "Driving License Application",
+    "Passport Application",
+    "PAN Card Application",
+    "Birth Certificate",
+    "Marriage Certificate",
+    "Domicile Certificate",
+    "Income Certificate",
+    "Ration Card",
+  ];
+
+  // Map services to their required documents
+  const serviceDocumentsMap: { [key: string]: string[] } = {
+    "Driving License Application": [
+      "Aadhar Card",
+      "Address Proof",
+      "Medical Certificate",
+      "Passport Photograph",
+      "Proof of Date of Birth",
+    ],
+    "Passport Application": [
+      "Aadhar Card",
+      "Birth Certificate",
+      "Address Proof",
+      "Passport Photographs",
+    ],
+    "PAN Card Application": [
+      "Aadhar Card",
+      "Passport Photograph",
+      "Signature",
+    ],
+    "Birth Certificate": [
+      "Hospital Birth Record",
+      "Parents' Aadhar Card",
+      "Parents' Marriage Certificate",
+    ],
+    "Marriage Certificate": [
+      "Bride & Groom Aadhar Card",
+      "Birth Certificate",
+      "Passport Photographs",
+      "Marriage Invitation Card",
+      "Witness ID Proof",
+    ],
+    "Domicile Certificate": [
+      "Aadhar Card",
+      "Address Proof",
+      "Birth Certificate",
+      "Passport Photograph",
+    ],
+    "Income Certificate": [
+      "Aadhar Card",
+      "Salary Slip",
+      "Address Proof",
+      "Passport Photograph",
+    ],
+    "Ration Card": [
+      "Aadhar Card",
+      "Address Proof",
+      "Income Certificate",
+      "Passport Photographs",
+      "Bank Passbook",
+    ],
+  };
+
+  const [selectedService, setSelectedService] = useState<string>("");
+
+  // analysis results
+  const [detectedDocs, setDetectedDocs] = useState<string[]>([]);
+  const [missingDocs, setMissingDocs] = useState<string[]>(allDocuments);
+  const [warnings, setWarnings] = useState<string[]>([]);
+  const [readiness, setReadiness] = useState<number>(0);
+  const [suggestedFix, setSuggestedFix] = useState<string>("");
+
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Requirements for each service (keywords to match in filenames)
-  const serviceRequirements: { [key: string]: string[] } = {
-    "Driving License Application": ["aadhaar", "address", "passport", "age", "learner"],
-    "Passport Application": ["aadhaar", "address", "photo", "birth", "police"],
-    "PAN Card Application": ["aadhaar", "photo", "signature"],
-    "Voter ID": ["aadhaar", "id", "address"],
-    "Aadhaar Card": ["dob", "photo", "address", "id"],
-    "Birth Certificate": ["hospital", "aadhar", "marriage"],
-    "Marriage Certificate": ["aadhar", "birth", "photo", "invitation", "witness"],
-    "Domicile Certificate": ["aadhaar", "address", "birth", "photo"],
-    "Income Certificate": ["aadhaar", "salary", "address", "photo"],
-    "Ration Card": ["aadhaar", "address", "income", "photo", "bank"],
-  };
-
-  const keywordLabels: { [key: string]: string } = {
-    aadhaar: "Aadhaar Card",
-    address: "Address Proof",
-    passport: "Passport Photo",
-    age: "Age Proof",
-    learner: "Learner License",
-    photo: "Passport Photo",
-    birth: "Birth Certificate",
-    police: "Police Clearance",
-    signature: "Signature",
-    id: "ID Proof",
-    dob: "Date of Birth Proof",
-    hospital: "Hospital Record",
-    marriage: "Marriage Certificate",
-    invitation: "Marriage Proof",
-    witness: "Witness ID",
-    salary: "Salary Slip",
-    income: "Income Proof",
-    bank: "Bank Passbook",
-  };
-
-  const suggestionMessages: { [key: string]: string } = {
-    address: "Please upload an electricity bill, bank statement, or rent agreement as address proof.",
-    aadhaar: "Please upload your Aadhaar Card.",
-    photo: "Please upload a passport-sized photo.",
-    birth: "Please upload your birth certificate.",
-    salary: "Please upload your latest salary slip or income proof.",
-    income: "Please upload valid income proof.",
-    bank: "Please upload a bank passbook copy.",
-    learner: "Please upload your learner license.",
-    id: "Please upload a valid government ID.",
-    marriage: "Please upload your marriage certificate.",
-    invitation: "Please upload the marriage invitation or proof.",
-    witness: "Please upload ID proof for witnesses.",
-  };
-
-  // compute detected and missing documents based on uploaded files and selected service
-  const detectedDocs = new Set<string>();
-  if (selectedService && serviceRequirements[selectedService]) {
-    const reqs = serviceRequirements[selectedService];
-    uploadedFiles.forEach((f) => {
-      const name = f.name.toLowerCase();
-      reqs.forEach((keyword) => {
-        if (name.includes(keyword)) {
-          detectedDocs.add(keyword);
-        }
-      });
-    });
-  }
-
-  const currentReqs = selectedService ? serviceRequirements[selectedService] || [] : [];
-  const missingDocs = currentReqs.filter((k) => !detectedDocs.has(k));
-  const readiness = currentReqs.length > 0 ? Math.round((detectedDocs.size / currentReqs.length) * 100) : 0;
-  const invalidDocs = uploadedFiles
-    .filter((f) => !currentReqs.some((k) => f.name.toLowerCase().includes(k)))
-    .map((f) => f.name);
-
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement> | DragEvent) => {
-    let files: FileList | null = null;
-    if ((event as DragEvent).dataTransfer) {
-      event.preventDefault();
-      files = (event as DragEvent).dataTransfer!.files;
-    } else {
-      files = (event as React.ChangeEvent<HTMLInputElement>).target.files;
-    }
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
     if (files) {
       const newFiles: UploadedFile[] = Array.from(files).map((file) => ({
         id: Math.random().toString(36).substr(2, 9),
@@ -117,34 +123,80 @@ export default function SarkariDost() {
         size: file.size,
         type: file.type,
       }));
-      setUploadedFiles((prev) => [...prev, ...newFiles]);
-      
+      setUploadedFiles([...uploadedFiles, ...newFiles]);
+
       // Simulate AI analysis
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 2000);
     }
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    handleFileUpload(e.nativeEvent as DragEvent);
   };
 
   const handleRemoveFile = (id: string) => {
     setUploadedFiles(uploadedFiles.filter((f) => f.id !== id));
   };
 
+  // recalc analysis whenever uploads or service changes
+  useEffect(() => {
+    // if no service selected, show empty state
+    if (!selectedService) {
+      setDetectedDocs([]);
+      setMissingDocs([]);
+      setWarnings([]);
+      setReadiness(0);
+      setSuggestedFix("");
+      return;
+    }
+
+    // get required docs for selected service
+    const requiredDocs = serviceDocumentsMap[selectedService] || [];
+
+    // detect which required docs were uploaded
+    // improved matching: check if any word from doc name is in filename
+    const detected: string[] = [];
+    uploadedFiles.forEach((file) => {
+      const fileName = file.name.toLowerCase();
+      // remove file extension
+      const fileNameNoExt = fileName.replace(/\.[^/.]+$/, "");
+      
+      requiredDocs.forEach((doc) => {
+        if (detected.includes(doc)) return;
+        
+        // split doc name into words and check if any significant word matches
+        const docWords = doc.toLowerCase().split(/[\s\-_]+/).filter(w => w.length > 2);
+        
+        // check if at least one word from the document name appears in the filename
+        const isMatch = docWords.some(word => fileNameNoExt.includes(word));
+        
+        if (isMatch) {
+          detected.push(doc);
+        }
+      });
+    });
+
+    setDetectedDocs(detected);
+    setMissingDocs(requiredDocs.filter((d) => !detected.includes(d)));
+    setWarnings(
+      uploadedFiles
+        .filter((f) => f.size > 5 * 1024 * 1024)
+        .map((f) => `Large file: ${f.name}`)
+    );
+    const ready = requiredDocs.length
+      ? Math.round((detected.length / requiredDocs.length) * 100)
+      : 0;
+    setReadiness(ready);
+    setSuggestedFix(
+      detected.length < requiredDocs.length
+        ? `${requiredDocs.find((d) => !detected.includes(d))} missing`
+        : "All documents detected"
+    );
+  }, [uploadedFiles, selectedService]);
+
   const handleDownloadChecklist = () => {
     const lines: string[] = [];
-    currentReqs.forEach((req) => {
-      const ok = detectedDocs.has(req);
-      lines.push(`${ok ? "✓" : "✗"} ${req}`);
-    });
+    detectedDocs.forEach((d) => lines.push(`✓ ${d}`));
+    missingDocs.forEach((d) => lines.push(`✗ ${d}`));
     const checklistText = lines.join("\n");
     const element = document.createElement("a");
     element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(checklistText));
@@ -175,21 +227,6 @@ export default function SarkariDost() {
         </div>
         <p className="text-blue-100 text-sm">Your Digital Guide to Government Services</p>
         <div className="bg-white bg-opacity-20 backdrop-blur px-4 py-2 rounded-full text-white text-sm font-medium">हिंदी / English</div>
-      </div>
-
-      {/* Feature Description Card */}
-      <div className="mb-12">
-        <FeatureDescriptionCard
-          title="🏛️ Sarkari Dost AI"
-          description="Navigate government processes and document requirements with ease"
-          features={[
-            "Service-specific document checklists",
-            "Automatic document verification",
-            "Error detection and corrections",
-            "Guided step-by-step instructions",
-          ]}
-          icon="📄"
-        />
       </div>
 
       {/* Main Title with Gold Accent */}
@@ -237,7 +274,7 @@ export default function SarkariDost() {
         </Link>
       </div>
 
-      {/* Two Column Section - Document Check and AI Analysis */}
+      {/* Two Column Section - Smart Assistant */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
         {/* Application Assistant */}
         <div className="bg-white rounded-2xl p-8 shadow-xl">
@@ -246,128 +283,153 @@ export default function SarkariDost() {
           {/* Upload Area */}
           <div
             onClick={() => fileInputRef.current?.click()}
-            onDragOver={handleDragOver}
-            onDrop={handleDrop}
             className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all mb-6"
           >
             <div className="text-4xl mb-3">📁</div>
-            <p className="text-slate-700 font-semibold">{t("common.dragDrop")}</p>
-            <p className="text-slate-500 text-sm mt-2">{t("common.dragDropHint")}</p>
+            <p className="text-slate-700 font-semibold">Drag & drop government documents</p>
+            <p className="text-slate-500 text-sm mt-2">Aadhaar, PAN, DL, Passport, Birth certificate…</p>
           </div>
-          <input ref={fileInputRef} type="file" multiple onChange={handleFileUpload} title="Upload documents" aria-label="Upload documents" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
+          <input
+            ref={fileInputRef}
+            type="file"
+            multiple
+            onChange={handleFileUpload}
+            title="Upload documents"
+            aria-label="Upload documents"
+            className="hidden"
+            accept=".pdf,.jpg,.jpeg,.png"
+          />
 
           {/* Uploaded Files */}
           {uploadedFiles.length > 0 && (
             <div className="mb-6">
-              <p className="text-sm font-semibold text-slate-600 mb-3">{t("vidyarthi.uploadedDocuments")}:</p>
+              <p className="text-sm font-semibold text-slate-600 mb-3">Uploaded Documents:</p>
               <div className="space-y-2">
                 {uploadedFiles.map((file) => (
-                  <div key={file.id} className="flex items-center justify-between bg-slate-50 p-3 rounded-lg">
+                  <div
+                    key={file.id}
+                    className="flex items-center justify-between bg-slate-50 p-3 rounded-lg"
+                  >
                     <span className="text-sm text-slate-700">{file.name}</span>
-                    <button onClick={() => handleRemoveFile(file.id)} className="text-red-500 hover:text-red-700 text-sm font-semibold">Remove</button>
+                    <button
+                      onClick={() => handleRemoveFile(file.id)}
+                      className="text-red-500 hover:text-red-700 text-sm font-semibold"
+                    >
+                      Remove
+                    </button>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Service Picker */}
+          {/* Service Dropdown */}
           <div className="border-t pt-6">
-            <p className="text-slate-700 font-semibold mb-4">Select Government Service:</p>
+            <label className="block text-slate-700 font-semibold mb-2" htmlFor="service-select">
+              Select Government Service:
+            </label>
             <select
+              id="service-select"
               value={selectedService}
               onChange={(e) => setSelectedService(e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-4 py-2 bg-white"
             >
               <option value="">-- choose service --</option>
-              <option>Driving License Application</option>
-              <option>Passport Application</option>
-              <option>PAN Card Application</option>
-              <option>Voter ID</option>
-              <option>Aadhaar Card</option>
-              <option>Birth Certificate</option>
-              <option>Marriage Certificate</option>
-              <option>Domicile Certificate</option>
-              <option>Income Certificate</option>
-              <option>Ration Card</option>
+              {serviceOptions.map((opt) => (
+                <option key={opt} value={opt}>
+                  {opt}
+                </option>
+              ))}
             </select>
           </div>
         </div>
 
         {/* AI Application Review */}
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-xl">
-          <div className="flex items-start gap-3 mb-6">
-            <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white text-xl font-bold">🔍</div>
-            <div>
-              <h3 className="text-2xl font-bold text-slate-800">AI Application Review</h3>
-              <p className="text-slate-600 text-sm">Document verification status</p>
-            </div>
-          </div>
-          {!selectedService && (
-            <p className="text-center text-slate-500 py-8">Please select a service to start review.</p>
-          )}
-          {/* Progress indicator */}
-          <p className="text-sm font-medium text-slate-700 mb-2">
-            Application Readiness: {readiness}%
-          </p>
-          <div className="w-full bg-slate-200 rounded-full h-2 mb-4">
-            <div className="bg-green-500 h-2 rounded-full" style={{ width: `${readiness}%` }} />
-          </div>
+          <h3 className="text-2xl font-bold text-slate-800 mb-6">AI Application Review</h3>
 
-          {/* Detected Documents */}
-          <div className="space-y-3">
-            {Array.from(detectedDocs).map((doc) => (
-              <div key={doc} className="flex items-center gap-3 p-3 bg-white rounded-lg shadow-sm">
-                <span className="text-2xl text-green-600">✔</span>
-                <span className="text-slate-700">
-                  {keywordLabels[doc] || doc.replace(/-/g, " ")}
-                </span>
-              </div>
-            ))}
-          </div>
-
-          {/* Missing Documents */}
-          {missingDocs.length > 0 && (
-            <div className="mt-6 space-y-3">
-              {missingDocs.map((doc) => (
-                <div key={doc} className="flex items-center gap-3 p-3 bg-red-50 rounded-lg shadow-sm">
-                  <span className="text-2xl text-red-500">✘</span>
-                  <span className="text-red-600 font-semibold">
-                    {keywordLabels[doc] || doc.replace(/-/g, " ")} missing
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Invalid Documents */}
-          {invalidDocs.length > 0 && (
-            <div className="mt-6 space-y-3">
-              {invalidDocs.map((name) => (
-                <div key={name} className="flex items-center gap-3 p-3 bg-yellow-50 rounded-lg shadow-sm">
-                  <span className="text-2xl text-yellow-600">⚠️</span>
-                  <span className="text-yellow-800 font-medium">{name} not recognized</span>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Suggested Fix Box */}
-          {missingDocs.length > 0 && (
-            <div className="mt-6 p-4 bg-yellow-50 border border-yellow-300 rounded-lg">
-              <h4 className="text-sm font-semibold text-yellow-700 mb-2">Suggested Fix</h4>
-              <p className="text-sm text-yellow-800">
-                {suggestionMessages[missingDocs[0]] ||
-                  `Please upload ${keywordLabels[missingDocs[0]] || missingDocs[0].replace(/-/g, " ")} to proceed.`}
+          {!selectedService ? (
+            <div className="text-center py-12">
+              <p className="text-slate-600 text-lg">
+                Please select a government service to see required documents
               </p>
             </div>
-          )}
+          ) : (
+            <>
+              {/* readiness/progress */}
+              <p className="text-sm font-medium text-slate-700 mb-4">
+                Application Readiness: {readiness}%
+              </p>
+              <div className="w-full bg-slate-200 rounded-full h-2 mb-6">
+                <div
+                  className="bg-green-500 h-2 rounded-full"
+                  style={{ width: `${readiness}%` }}
+                />
+              </div>
 
-          {isLoading && (
-            <div className="mt-6 text-center">
-              <div className="inline-block animate-spin">⚙️</div>
-              <p className="text-slate-600 text-sm mt-2">Analyzing your documents...</p>
-            </div>
+              {/* Detected Documents */}
+              {detectedDocs.length > 0 && (
+                <div className="mb-4">
+                  <p className="font-semibold text-slate-800 mb-2">Detected Documents</p>
+                  <div className="space-y-2">
+                    {detectedDocs.map((doc) => (
+                      <div
+                        key={doc}
+                        className="flex items-center gap-3 p-2 bg-white rounded-lg shadow-sm"
+                      >
+                        <span className="text-green-600 text-xl">✔</span>
+                        <span className="text-slate-700">{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Missing Documents */}
+              {missingDocs.length > 0 && (
+                <div className="mb-4">
+                  <p className="font-semibold text-red-600 mb-2">Missing Documents</p>
+                  <div className="space-y-2">
+                    {missingDocs.map((doc) => (
+                      <div
+                        key={doc}
+                        className="flex items-center gap-3 p-2 bg-red-50 rounded-lg shadow-sm"
+                      >
+                        <span className="text-red-600 text-xl">✗</span>
+                        <span className="text-red-600">{doc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Warnings */}
+              {warnings.length > 0 && (
+                <div className="mb-4">
+                  <p className="font-semibold text-yellow-600 mb-2">Warnings</p>
+                  <ul className="list-disc list-inside text-slate-700">
+                    {warnings.map((w, idx) => (
+                      <li key={idx}>{w}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Suggested Fix */}
+              {suggestedFix && (
+                <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                  <p className="font-semibold text-yellow-800 mb-1">Suggested Fix</p>
+                  <p className="text-slate-700">{suggestedFix}</p>
+                </div>
+              )}
+
+              {isLoading && (
+                <div className="mt-6 text-center">
+                  <div className="inline-block animate-spin">⚙️</div>
+                  <p className="text-slate-600 text-sm mt-2">Analyzing your documents...</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

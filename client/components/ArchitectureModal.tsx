@@ -78,7 +78,7 @@ export const ArchitectureModal: React.FC<ArchitectureModalProps> = ({ isOpen, on
               <ArchitectureBlock
                 title="Application Layer"
                 items={[
-                  { label: "EC2 Auto Scaling", icon: "🖥️", color: "from-yellow-500 to-orange-500" },
+                  { label: "AWS Lambda", icon: "🖥️", color: "from-yellow-500 to-orange-500" },
                   { label: "Node.js + Express", icon: "🚀", color: "from-green-500 to-emerald-500" },
                 ]}
               />

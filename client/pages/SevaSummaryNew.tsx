@@ -168,20 +168,20 @@ Ask specific questions about values, results, or what they mean for your health.
 
               <div className="p-6 flex-1 flex flex-col overflow-hidden">
                 {/* AI Avatar - Professional Doctor */}
-              {messages.length === 0 && !isLoading && (
-                <div className="flex flex-col items-center justify-center mb-6">
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2F1a0ce45445164ef48f121607b86cacd1%2F3c7b7678baf84c1aaf49fa4645a9a56f?format=webp&width=400&height=500"
-                    alt="Health Guide AI Doctor"
-                    className="h-72 w-auto object-contain drop-shadow-2xl mb-4"
-                  />
+                {messages.length === 0 && !isLoading && (
+                  <div className="flex flex-col items-center justify-center mb-6">
+                    <img
+                      src="https://cdn.builder.io/api/v1/image/assets%2F1a0ce45445164ef48f121607b86cacd1%2F3c7b7678baf84c1aaf49fa4645a9a56f?format=webp&width=400&height=500"
+                      alt="Health Guide AI Doctor"
+                      className="h-72 w-auto object-contain drop-shadow-2xl mb-4"
+                    />
 
-                  <div className="text-center">
-                    <p className="text-lg text-card-green font-bold">Health Guide AI</p>
-                    <p className="text-xs text-muted-foreground mt-1">Medical Assistant</p>
+                    <div className="text-center">
+                      <p className="text-lg text-card-green font-bold">Health Guide AI</p>
+                      <p className="text-xs text-muted-foreground mt-1">Medical Assistant</p>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
                 {/* Messages */}
                 <div className="flex-1 overflow-y-auto space-y-3">
@@ -193,11 +193,10 @@ Ask specific questions about values, results, or what they mean for your health.
                   {messages.map((msg) => (
                     <div
                       key={msg.id}
-                      className={`text-sm p-3 rounded-lg leading-relaxed ${
-                        msg.type === "user"
+                      className={`text-sm p-3 rounded-lg leading-relaxed ${msg.type === "user"
                           ? "bg-card-green/20 text-foreground ml-4 border-l-2 border-card-green"
                           : "bg-muted text-foreground mr-2"
-                      }`}
+                        }`}
                     >
                       {msg.content}
                     </div>
