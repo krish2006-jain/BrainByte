@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Navigation from "@/components/Navigation";
 import PageLayout from "@/components/ui/page-layout";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { FeatureDescriptionCard } from "@/components/FeatureDescriptionCard";
 import { useLoading } from "@/lib/LoadingContext";
 
@@ -23,7 +24,8 @@ const colorConfig = {
 };
 
 export default function SarkariDost() {
-  const { t } = useLanguage();
+  const { language } = useLanguage();
+  const t = useTranslation();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [selectedService, setSelectedService] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -249,15 +251,15 @@ export default function SarkariDost() {
             className="border-2 border-dashed border-slate-300 rounded-xl p-8 text-center cursor-pointer hover:border-blue-400 hover:bg-blue-50 transition-all mb-6"
           >
             <div className="text-4xl mb-3">📁</div>
-            <p className="text-slate-700 font-semibold">Tap to Upload Aadhar, PAN, DL</p>
-            <p className="text-slate-500 text-sm mt-2">Or drag and drop your documents here</p>
+            <p className="text-slate-700 font-semibold">{t("common.dragDrop")}</p>
+            <p className="text-slate-500 text-sm mt-2">{t("common.dragDropHint")}</p>
           </div>
           <input ref={fileInputRef} type="file" multiple onChange={handleFileUpload} title="Upload documents" aria-label="Upload documents" className="hidden" accept=".pdf,.jpg,.jpeg,.png" />
 
           {/* Uploaded Files */}
           {uploadedFiles.length > 0 && (
             <div className="mb-6">
-              <p className="text-sm font-semibold text-slate-600 mb-3">Uploaded Documents:</p>
+              <p className="text-sm font-semibold text-slate-600 mb-3">{t("vidyarthi.uploadedDocuments")}:</p>
               <div className="space-y-2">
                 {uploadedFiles.map((file) => (
                   <div key={file.id} className="flex items-center justify-between bg-slate-50 p-3 rounded-lg">

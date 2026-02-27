@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getTranslation } from "@/lib/translations";
 import Navigation from "@/components/Navigation";
 import PageLayout from "@/components/ui/page-layout";
@@ -22,6 +23,7 @@ interface UploadedFile {
 
 export default function SevaSummary() {
   const { language } = useLanguage();
+  const t = useTranslation();
   const [uploadedFile, setUploadedFile] = useState<UploadedFile | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -185,7 +187,7 @@ Ask specific questions about values, results, or what they mean for your health.
                 <div className="flex-1 overflow-y-auto space-y-3">
                   {messages.length === 0 && !isLoading && (
                     <p className="text-xs text-muted-foreground text-center py-2">
-                      Upload a document to begin
+                      {t("seva.uploadDocument")}
                     </p>
                   )}
                   {messages.map((msg) => (
@@ -222,8 +224,8 @@ Ask specific questions about values, results, or what they mean for your health.
                 <div className="mb-3 p-3 bg-card-green/20 rounded-lg group-hover:bg-card-green/30 transition-colors">
                   <Upload className="w-8 h-8 text-card-green group-hover:scale-110 transition-transform" />
                 </div>
-                <p className="font-bold text-center text-sm text-foreground mb-1">Add Your Medical Report</p>
-                <p className="text-xs text-muted-foreground text-center">JPG, PNG, or PDF format</p>
+                <p className="font-bold text-center text-sm text-foreground mb-1">{t("seva.uploadDocument")}</p>
+                <p className="text-xs text-muted-foreground text-center">{t("seva.uploadHint")}</p>
                 <input ref={fileInputRef} type="file" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileUpload} className="hidden" title="Upload medical report" aria-label="Upload medical report" />
               </div>
 
@@ -232,7 +234,7 @@ Ask specific questions about values, results, or what they mean for your health.
                   <MessageCircle className="w-4 h-4 text-card-green" />
                   <p className="font-semibold text-sm text-card-green">Chat with Health Guide</p>
                 </div>
-                <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => e.key === "Enter" && handleSendMessage()} placeholder="What would you like to know about your report?" disabled={!uploadedFile} className="flex-1 bg-muted/50 border border-card-green/20 rounded-lg px-4 py-3 text-sm mb-3 outline-none placeholder-muted-foreground disabled:opacity-50 focus:border-card-green focus:ring-1 focus:ring-card-green/30 transition-all" />
+                <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => e.key === "Enter" && handleSendMessage()} placeholder={t("seva.askHint")} disabled={!uploadedFile} className="flex-1 bg-muted/50 border border-card-green/20 rounded-lg px-4 py-3 text-sm mb-3 outline-none placeholder-muted-foreground disabled:opacity-50 focus:border-card-green focus:ring-1 focus:ring-card-green/30 transition-all" />
                 <button onClick={handleSendMessage} title="Send message" aria-label="Send message" disabled={!uploadedFile || !inputValue.trim() || isLoading} className="bg-gradient-to-r from-card-green to-card-green/90 hover:from-card-green/90 hover:to-card-green/80 text-white px-4 py-3 rounded-lg text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg">
                   <Send className="w-4 h-4" />
                   {getTranslation(language, "seva.send")}
@@ -271,8 +273,8 @@ Ask specific questions about values, results, or what they mean for your health.
                 ) : (
                   <div className="flex flex-col items-center justify-center h-full text-center">
                     <div className="mb-3 p-3 bg-muted rounded-lg"><FileText className="w-8 h-8 text-muted-foreground opacity-40" /></div>
-                    <p className="text-sm font-medium text-foreground mb-1">No report uploaded yet</p>
-                    <p className="text-xs text-muted-foreground">Upload a document to view insights</p>
+                    <p className="text-sm font-medium text-foreground mb-1">{t("seva.noDocumentSelected")}</p>
+                    <p className="text-xs text-muted-foreground">{t("seva.selectDocumentToAnalyze")}</p>
                   </div>
                 )}
               </div>

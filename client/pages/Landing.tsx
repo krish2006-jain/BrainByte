@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import { useTheme } from "@/lib/ThemeContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import Navigation from "@/components/Navigation";
 import { ArchitectureModal } from "@/components/ArchitectureModal";
 import { SystemStatusBadge } from "@/components/SystemStatusBadge";
@@ -244,6 +245,7 @@ export default function Landing() {
   const navigate = useNavigate();
   const { theme } = useTheme();
   const { login, signup, guestLogin } = useAuth();
+  const t = useTranslation();
   const [authMode, setAuthMode] = useState<AuthMode>("initial");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -300,18 +302,18 @@ export default function Landing() {
 
   const features = [
     {
-      icon: "🏛️", title: "Sarkari-Dost", accent: "#6366f1",
-      desc: "Navigate government processes with ease using AI-powered assistance.",
+      icon: "🏛️", title: t("features.sarkaridost.title"), accent: "#6366f1",
+      desc: t("features.sarkaridost.description"),
       items: ["Document Verification", "Guided Instructions", "Error Detection"],
     },
     {
-      icon: "📊", title: "Seva-Summary", accent: "#10b981",
-      desc: "Upload government documents and get instant AI-powered summaries.",
+      icon: "📊", title: t("features.sevasummary.title"), accent: "#10b981",
+      desc: t("features.sevasummary.description"),
       items: ["Document Upload", "AI Analysis", "Chat Interface"],
     },
     {
-      icon: "📚", title: "Vidyarthi-AI", accent: "#f59e0b",
-      desc: "Your AI study companion for learning materials and personalized insights.",
+      icon: "📚", title: t("features.vidyarthi.title"), accent: "#f59e0b",
+      desc: t("features.vidyarthi.description"),
       items: ["Study Materials", "AI Insights", "Quiz Generation"],
     },
   ];
@@ -366,19 +368,19 @@ export default function Landing() {
                       animation: "textGradient 5s ease infinite",
                     }}
                   >
-                    Bharat AI
+                    {t("nav.appName")}
                   </h1>
                   <p
                     className="text-xl sm:text-2xl font-light mb-4 max-w-2xl mx-auto"
                     style={{ color: isDark ? "rgba(148,163,184,0.9)" : "rgba(71,85,105,0.9)" }}
                   >
-                    Intelligent services for modern India
+                    {t("home.hero.title")}
                   </p>
                   <p
                     className="text-base sm:text-lg font-medium mb-6 max-w-3xl mx-auto"
                     style={{ color: isDark ? "rgba(99,102,241,0.8)" : "rgba(99,102,241,0.75)" }}
                   >
-                    One unified AI platform for students, healthcare, and government document intelligence.
+                    {t("home.hero.subtitle")}
                   </p>
                   <p
                     className="text-sm max-w-xl mx-auto mb-10"

@@ -19,6 +19,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface UploadedFile {
   id: string;
@@ -47,6 +48,7 @@ const studyTools = [
 
 export default function VidyarthiAINew() {
   const { language } = useLanguage();
+  const t = useTranslation();
   const navigate = useNavigate();
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -237,7 +239,7 @@ export default function VidyarthiAINew() {
             {/* Uploaded Files */}
             {uploadedFiles.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 font-semibold px-1">Uploaded Sources</p>
+                <p className="text-xs text-slate-400 font-semibold px-1">{t("vidyarthi.uploadedDocuments")}</p>
                 {uploadedFiles.map((file) => (
                   <div
                     key={file.id}
@@ -288,15 +290,15 @@ export default function VidyarthiAINew() {
               <div className="flex-1 flex flex-col items-center justify-center gap-6">
                 <Upload className="w-16 h-16 text-slate-600" />
                 <div className="text-center">
-                  <h2 className="text-white text-lg font-semibold mb-2">Add a source to get started</h2>
-                  <p className="text-slate-400 text-sm mb-6">Upload documents, PDFs, or paste text</p>
+                  <h2 className="text-white text-lg font-semibold mb-2">{t("vidyarthi.uploadDocuments")}</h2>
+                  <p className="text-slate-400 text-sm mb-6">{t("vidyarthi.uploadHint")}</p>
                 </div>
 
                 <button
                   onClick={() => fileInputRef.current?.click()}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium text-sm transition"
                 >
-                  Upload a source
+                  {t("common.chooseFile")}
                 </button>
 
                 {/* Study Tools Grid */}
@@ -365,7 +367,7 @@ export default function VidyarthiAINew() {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
-                  placeholder="Ask your study partner anything..."
+                  placeholder={t("vidyarthi.askQuestion")}
                   className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
