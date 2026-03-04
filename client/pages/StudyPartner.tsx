@@ -56,23 +56,23 @@ export default function StudyPartner() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-slate-900">
-      <div className="border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+    <div className="h-screen flex flex-col bg-white">
+      <div className="border-b border-slate-200 px-6 py-4 flex items-center justify-between">
         <button onClick={() => navigate("/vidyarthi-ai")} className="text-blue-400 hover:underline">← Back</button>
-        <h1 className="text-white font-semibold">Study Partner</h1>
+        <h1 className="text-slate-800 font-semibold">Study Partner</h1>
         <div />
       </div>
       <div className="flex-1 overflow-y-auto p-6 space-y-4">
         {messages.map((msg) => (
           <div key={msg.id} className={`flex ${msg.type === "user" ? "justify-end" : "justify-start"}`}>
-            <div className={`max-w-md px-4 py-3 rounded-lg ${msg.type === "user" ? "bg-blue-600 text-white" : "bg-slate-700 text-slate-100"}`}>
+            <div className={`max-w-md px-4 py-3 rounded-lg ${msg.type === "user" ? "bg-blue-600 text-white" : "bg-white text-slate-800"}`}>
               <p className="text-sm leading-relaxed">{msg.content}</p>
             </div>
           </div>
         ))}
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-slate-700 text-slate-100 px-4 py-3 rounded-lg flex items-center gap-2">
+            <div className="bg-white text-slate-800 px-4 py-3 rounded-lg flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" />
               <span className="text-sm">Thinking...</span>
             </div>
@@ -80,7 +80,7 @@ export default function StudyPartner() {
         )}
         <div ref={messagesEndRef} />
       </div>
-      <div className="border-t border-slate-700 p-4">
+      <div className="border-t border-slate-200 p-4">
         <div className="flex gap-2">
           <input
             type="text"
@@ -88,12 +88,12 @@ export default function StudyPartner() {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyPress={(e) => e.key === "Enter" && handleSend()}
             placeholder="Talk to your study partner..."
-            className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={handleSend}
             disabled={isLoading || !inputValue.trim()}
-            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 text-white rounded-lg transition disabled:cursor-not-allowed"
+            className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-white text-slate-800 rounded-lg transition disabled:cursor-not-allowed"
           >
             <Send className="w-5 h-5" />
           </button>

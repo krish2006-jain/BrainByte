@@ -159,7 +159,7 @@ export default function ErrorScanner() {
       </button>
 
       <div className="mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Document Error Scanner</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Document Error Scanner</h1>
         <p className="text-blue-200 text-lg">Upload your government documents and let AI scan for potential errors, quality issues, and missing information</p>
       </div>
 

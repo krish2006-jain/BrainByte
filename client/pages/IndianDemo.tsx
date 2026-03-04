@@ -1,7 +1,6 @@
 import "./IndianDemo.css";
 import { Link } from "react-router-dom";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useTheme } from "@/lib/ThemeContext";
 import Navigation from "@/components/Navigation";
 import {
     FileText,
@@ -36,7 +35,6 @@ function useScrollReveal() {
             { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
         );
 
-        // Observe all scroll-reveal elements inside this container
         const targets = root.querySelectorAll(
             ".scroll-reveal, .scroll-reveal-left, .scroll-reveal-scale"
         );
@@ -102,8 +100,8 @@ function LotusSVG({ size = 48, className }: { size?: number; className?: string 
 }
 
 /* ─── Temple Arch SVG Decoration ───────────────────────────────────────── */
-function TempleArch({ isDark }: { isDark: boolean }) {
-    const color = isDark ? "rgba(212,160,23,0.1)" : "rgba(212,160,23,0.15)";
+function TempleArch() {
+    const color = "rgba(212,160,23,0.15)";
     return (
         <svg className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none" width="600" height="200" viewBox="0 0 600 200" xmlns="http://www.w3.org/2000/svg" style={{ opacity: 0.6 }}>
             <path d="M0 200 Q300 -40 600 200" fill="none" stroke={color} strokeWidth="2" />
@@ -114,9 +112,8 @@ function TempleArch({ isDark }: { isDark: boolean }) {
 }
 
 /* ─── Sacred Heartbeat Pulse ───────────────────────────────────────────── */
-function HeartbeatPulse({ isDark }: { isDark: boolean }) {
-    const strokeColor = isDark ? "#D4A017" : "#B8860B";
-    const glowColor = isDark ? "rgba(212,160,23,0.4)" : "rgba(212,160,23,0.3)";
+function HeartbeatPulse() {
+    const strokeColor = "#B8860B";
     return (
         <div className="flex items-center justify-center py-8 sm:py-12">
             <svg width="320" height="50" viewBox="0 0 320 50" xmlns="http://www.w3.org/2000/svg" className="overflow-visible">
@@ -136,9 +133,7 @@ function HeartbeatPulse({ isDark }: { isDark: boolean }) {
                         </feMerge>
                     </filter>
                 </defs>
-                {/* Baseline */}
                 <line x1="0" y1="25" x2="320" y2="25" stroke={strokeColor} strokeWidth="0.5" opacity="0.15" />
-                {/* Heartbeat wave — drawn as a static path that pulses */}
                 <g filter="url(#heartGlow)">
                     <path
                         d="M0,25 L80,25 L95,25 L105,8 L115,42 L125,15 L135,35 L145,25 L160,25 L175,25 L185,12 L195,38 L205,18 L215,32 L225,25 L240,25 L320,25"
@@ -150,9 +145,7 @@ function HeartbeatPulse({ isDark }: { isDark: boolean }) {
                         className="sacred-heartbeat"
                     />
                 </g>
-                {/* Center dot that pulses */}
                 <circle cx="160" cy="25" r="3" fill={strokeColor} className="sacred-heartbeat" opacity="0.7" />
-                {/* Side lotus dots */}
                 <circle cx="60" cy="25" r="2" fill={strokeColor} opacity="0.2" />
                 <circle cx="260" cy="25" r="2" fill={strokeColor} opacity="0.2" />
             </svg>
@@ -181,11 +174,11 @@ function Diya({ style }: { style?: React.CSSProperties }) {
 }
 
 /* ─── Background ───────────────────────────────────────────────────────── */
-function IndianBackground({ isDark }: { isDark: boolean }) {
+function IndianBackground() {
     return (
         <div className="indian-bg" aria-hidden>
-            <div className={`absolute inset-0 ${isDark ? "indian-bg__gradient-dark" : "indian-bg__gradient-light"}`} />
-            <div className={`absolute inset-0 ${isDark ? "dot-pattern" : "dot-pattern-light"}`} />
+            <div className="absolute inset-0 indian-bg__gradient-light" />
+            <div className="absolute inset-0 dot-pattern-light" />
 
             {/* Mandala decorations */}
             <div className="mandala-ring" style={{ top: "-15%", right: "-10%", width: 700, height: 700 }}>
@@ -212,9 +205,7 @@ function IndianBackground({ isDark }: { isDark: boolean }) {
                 className="absolute rounded-full"
                 style={{
                     width: 500, height: 500, top: "10%", left: "15%",
-                    background: isDark
-                        ? "radial-gradient(circle, rgba(212,160,23,0.06) 0%, transparent 70%)"
-                        : "radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(212,160,23,0.08) 0%, transparent 70%)",
                     filter: "blur(80px)",
                     animation: "floatParticle 20s ease-in-out infinite",
                 }}
@@ -223,9 +214,7 @@ function IndianBackground({ isDark }: { isDark: boolean }) {
                 className="absolute rounded-full"
                 style={{
                     width: 400, height: 400, bottom: "5%", right: "10%",
-                    background: isDark
-                        ? "radial-gradient(circle, rgba(255,107,0,0.05) 0%, transparent 70%)"
-                        : "radial-gradient(circle, rgba(255,107,0,0.07) 0%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(255,107,0,0.07) 0%, transparent 70%)",
                     filter: "blur(70px)",
                     animation: "floatParticle 25s ease-in-out infinite 3s",
                 }}
@@ -239,8 +228,6 @@ function IndianBackground({ isDark }: { isDark: boolean }) {
 /* ═══════════════════════════════════════════════════════════════════════ */
 
 export default function IndianDemo() {
-    const { theme } = useTheme();
-    const isDark = theme === "dark";
     const containerRef = useScrollReveal();
 
     /* ─── Feature data ─────────────────────────────────────────────── */
@@ -253,7 +240,7 @@ export default function IndianDemo() {
             icon: FileText,
             accent: "#6366f1",
             gradient: "linear-gradient(135deg, #6366f1, #4f46e5)",
-            glowColor: "rgba(99,102,241,0.25)",
+            glowColor: "rgba(99,102,241,0.2)",
             path: "/sarkari-dost",
             tag: "Government AI",
         },
@@ -265,7 +252,7 @@ export default function IndianDemo() {
             icon: Stethoscope,
             accent: "#10b981",
             gradient: "linear-gradient(135deg, #10b981, #059669)",
-            glowColor: "rgba(16,185,129,0.25)",
+            glowColor: "rgba(16,185,129,0.2)",
             path: "/seva-summary",
             tag: "Health AI",
         },
@@ -277,7 +264,7 @@ export default function IndianDemo() {
             icon: BookOpen,
             accent: "#f59e0b",
             gradient: "linear-gradient(135deg, #f59e0b, #d97706)",
-            glowColor: "rgba(245,158,11,0.25)",
+            glowColor: "rgba(245,158,11,0.2)",
             path: "/vidyarthi-ai",
             tag: "Education AI",
         },
@@ -291,7 +278,7 @@ export default function IndianDemo() {
 
     return (
         <div className="min-h-screen flex flex-col relative" ref={containerRef}>
-            <IndianBackground isDark={isDark} />
+            <IndianBackground />
 
             {/* ── Content ─────────────────────────────────────────────────── */}
             <div className="relative z-10 flex flex-col min-h-screen" style={{ scrollBehavior: "smooth" }}>
@@ -303,22 +290,21 @@ export default function IndianDemo() {
                     <section className="relative flex items-center justify-center px-4 sm:px-6 lg:px-8 pt-8 sm:pt-14 lg:pt-20 pb-6 sm:pb-10">
                         <div className="max-w-5xl mx-auto w-full text-center relative">
 
-                            {/* Temple arch decoration */}
-                            <TempleArch isDark={isDark} />
+                            <TempleArch />
 
                             {/* Lotus badge */}
                             <div className="flex justify-center mb-6 reveal-up">
                                 <div
                                     className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full text-xs font-bold uppercase tracking-[0.2em]"
                                     style={{
-                                        background: isDark ? "rgba(212,160,23,0.1)" : "rgba(212,160,23,0.08)",
-                                        border: `1px solid ${isDark ? "rgba(212,160,23,0.25)" : "rgba(212,160,23,0.3)"}`,
-                                        color: isDark ? "#F5D060" : "#B8860B",
+                                        background: "rgba(212,160,23,0.08)",
+                                        border: "1px solid rgba(212,160,23,0.3)",
+                                        color: "#B8860B",
                                     }}
                                 >
                                     <LotusSVG size={18} className="lotus-pulse" />
                                     <span>Bharat AI Portal</span>
-                                    <Sparkles className="w-3.5 h-3.5" style={{ color: isDark ? "#F5D060" : "#D4A017" }} />
+                                    <Sparkles className="w-3.5 h-3.5" style={{ color: "#D4A017" }} />
                                 </div>
                             </div>
 
@@ -329,7 +315,7 @@ export default function IndianDemo() {
                             >
                                 <span className="gold-text">AI for Every</span>
                                 <br />
-                                <span style={{ color: isDark ? "rgba(255,253,245,0.92)" : "rgba(26,10,46,0.92)" }}>
+                                <span style={{ color: "rgba(26,10,46,0.92)" }}>
                                     Citizen of{" "}
                                 </span>
                                 <span className="saffron-text">Bharat</span>
@@ -339,13 +325,13 @@ export default function IndianDemo() {
                             <p
                                 className="text-base sm:text-lg md:text-xl mb-8 max-w-2xl mx-auto font-light leading-relaxed reveal-up"
                                 style={{
-                                    color: isDark ? "rgba(255,253,245,0.55)" : "rgba(26,10,46,0.6)",
+                                    color: "rgba(26,10,46,0.6)",
                                     animationDelay: "0.2s",
                                 }}
                             >
                                 Bridging the digital divide with AI-powered tools — from government services to healthcare to education.
                                 Built with the spirit of{" "}
-                                <span style={{ color: isDark ? "#F5D060" : "#D4A017", fontWeight: 500 }}>Seva</span> (selfless service).
+                                <span style={{ color: "#D4A017", fontWeight: 500 }}>Seva</span> (selfless service).
                             </p>
 
                             {/* CTA Buttons */}
@@ -365,9 +351,9 @@ export default function IndianDemo() {
                                     href="#features"
                                     className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-base transition-all duration-300 hover:scale-[1.02]"
                                     style={{
-                                        background: isDark ? "rgba(212,160,23,0.08)" : "rgba(212,160,23,0.06)",
-                                        border: `1px solid ${isDark ? "rgba(212,160,23,0.2)" : "rgba(212,160,23,0.25)"}`,
-                                        color: isDark ? "#F5D060" : "#B8860B",
+                                        background: "rgba(212,160,23,0.06)",
+                                        border: "1px solid rgba(212,160,23,0.25)",
+                                        color: "#B8860B",
                                     }}
                                 >
                                     Explore Features
@@ -377,9 +363,9 @@ export default function IndianDemo() {
                         </div>
                     </section>
 
-                    {/* ═══ HEARTBEAT SECTION — sacred pulse transition ═══════ */}
+                    {/* ═══ HEARTBEAT SECTION ═══════════════════════════════════ */}
                     <section className="scroll-reveal">
-                        <HeartbeatPulse isDark={isDark} />
+                        <HeartbeatPulse />
                     </section>
 
                     {/* ═══ STATS ROW ══════════════════════════════════════════ */}
@@ -392,15 +378,15 @@ export default function IndianDemo() {
                                         key={i}
                                         className={`scroll-reveal delay-${i + 1} flex flex-col items-center gap-2 py-6 px-4 rounded-2xl transition-all duration-300 hover:scale-[1.03]`}
                                         style={{
-                                            background: isDark ? "rgba(212,160,23,0.05)" : "rgba(212,160,23,0.04)",
-                                            border: `1px solid ${isDark ? "rgba(212,160,23,0.1)" : "rgba(212,160,23,0.12)"}`,
+                                            background: "rgba(212,160,23,0.04)",
+                                            border: "1px solid rgba(212,160,23,0.12)",
                                         }}
                                     >
-                                        <Icon className="w-5 h-5" style={{ color: isDark ? "#F5D060" : "#D4A017" }} />
+                                        <Icon className="w-5 h-5" style={{ color: "#D4A017" }} />
                                         <span className="text-2xl sm:text-3xl font-black gold-text stat-value">{stat.value}</span>
                                         <span
                                             className="text-xs font-medium uppercase tracking-wider"
-                                            style={{ color: isDark ? "rgba(255,253,245,0.45)" : "rgba(26,10,46,0.5)" }}
+                                            style={{ color: "rgba(26,10,46,0.5)" }}
                                         >
                                             {stat.label}
                                         </span>
@@ -418,13 +404,13 @@ export default function IndianDemo() {
                             <div className="text-center mb-12 sm:mb-16 scroll-reveal">
                                 <h2
                                     className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4"
-                                    style={{ color: isDark ? "rgba(255,253,245,0.9)" : "rgba(26,10,46,0.9)" }}
+                                    style={{ color: "rgba(26,10,46,0.9)" }}
                                 >
                                     Our <span className="gold-text">Seva</span> to You
                                 </h2>
                                 <p
                                     className="text-base sm:text-lg max-w-xl mx-auto"
-                                    style={{ color: isDark ? "rgba(255,253,245,0.45)" : "rgba(26,10,46,0.55)" }}
+                                    style={{ color: "rgba(26,10,46,0.55)" }}
                                 >
                                     Three powerful AI tools designed for the people of India
                                 </p>
@@ -442,22 +428,22 @@ export default function IndianDemo() {
                                             <div
                                                 className="indian-card rangoli-border h-full rounded-2xl p-6 sm:p-8 flex flex-col relative overflow-hidden"
                                                 style={{
-                                                    background: isDark ? "rgba(26,10,46,0.55)" : "rgba(255,253,245,0.7)",
+                                                    background: "rgba(255,253,245,0.8)",
                                                     backdropFilter: "blur(24px)",
-                                                    border: isDark ? "1px solid rgba(212,160,23,0.1)" : "1px solid rgba(212,160,23,0.15)",
-                                                    boxShadow: isDark
-                                                        ? "0 4px 32px rgba(0,0,0,0.3)"
-                                                        : "0 4px 32px rgba(212,160,23,0.08)",
+                                                    border: "1px solid rgba(212,160,23,0.15)",
+                                                    boxShadow: "0 4px 32px rgba(212,160,23,0.08)",
                                                 }}
                                                 onMouseEnter={e => {
                                                     const el = e.currentTarget;
                                                     el.style.border = `1px solid ${feature.accent}50`;
-                                                    el.style.boxShadow = `0 12px 48px ${feature.glowColor}, 0 4px 24px rgba(0,0,0,0.15)`;
+                                                    el.style.boxShadow = `0 12px 48px ${feature.glowColor}, 0 4px 24px rgba(0,0,0,0.08)`;
+                                                    el.style.transform = "translateY(-4px)";
                                                 }}
                                                 onMouseLeave={e => {
                                                     const el = e.currentTarget;
-                                                    el.style.border = isDark ? "1px solid rgba(212,160,23,0.1)" : "1px solid rgba(212,160,23,0.15)";
-                                                    el.style.boxShadow = isDark ? "0 4px 32px rgba(0,0,0,0.3)" : "0 4px 32px rgba(212,160,23,0.08)";
+                                                    el.style.border = "1px solid rgba(212,160,23,0.15)";
+                                                    el.style.boxShadow = "0 4px 32px rgba(212,160,23,0.08)";
+                                                    el.style.transform = "translateY(0)";
                                                 }}
                                             >
                                                 {/* Accent bar at top */}
@@ -467,7 +453,7 @@ export default function IndianDemo() {
                                                 <span
                                                     className="inline-block self-start px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-5"
                                                     style={{
-                                                        background: `${feature.accent}15`,
+                                                        background: `${feature.accent}12`,
                                                         color: feature.accent,
                                                         border: `1px solid ${feature.accent}25`,
                                                     }}
@@ -489,7 +475,7 @@ export default function IndianDemo() {
                                                 {/* Content */}
                                                 <h3
                                                     className="text-xl sm:text-2xl font-bold mb-1 text-left"
-                                                    style={{ color: isDark ? "rgba(255,253,245,0.92)" : "rgba(26,10,46,0.92)" }}
+                                                    style={{ color: "rgba(26,10,46,0.92)" }}
                                                 >
                                                     {feature.title}
                                                 </h3>
@@ -498,7 +484,7 @@ export default function IndianDemo() {
                                                 </p>
                                                 <p
                                                     className="text-sm text-left mb-6 flex-1 leading-relaxed"
-                                                    style={{ color: isDark ? "rgba(255,253,245,0.5)" : "rgba(26,10,46,0.6)" }}
+                                                    style={{ color: "rgba(26,10,46,0.6)" }}
                                                 >
                                                     {feature.description}
                                                 </p>
@@ -524,7 +510,7 @@ export default function IndianDemo() {
 
                     {/* ═══ HEARTBEAT TRANSITION ══════════════════════════════ */}
                     <section className="scroll-reveal">
-                        <HeartbeatPulse isDark={isDark} />
+                        <HeartbeatPulse />
                     </section>
 
                     {/* ═══ PHILOSOPHY SECTION ═════════════════════════════════ */}
@@ -533,10 +519,8 @@ export default function IndianDemo() {
                             <div
                                 className="scroll-reveal-scale rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden"
                                 style={{
-                                    background: isDark
-                                        ? "linear-gradient(135deg, rgba(212,160,23,0.06), rgba(255,107,0,0.04))"
-                                        : "linear-gradient(135deg, rgba(212,160,23,0.06), rgba(255,107,0,0.03))",
-                                    border: `1px solid ${isDark ? "rgba(212,160,23,0.12)" : "rgba(212,160,23,0.18)"}`,
+                                    background: "linear-gradient(135deg, rgba(212,160,23,0.06), rgba(255,107,0,0.03))",
+                                    border: "1px solid rgba(212,160,23,0.18)",
                                 }}
                             >
                                 {/* Corner lotus */}
@@ -547,13 +531,13 @@ export default function IndianDemo() {
                                 <div className="max-w-3xl">
                                     <span
                                         className="scroll-reveal-left text-xs font-bold uppercase tracking-[0.25em] mb-4 inline-block"
-                                        style={{ color: isDark ? "#F5D060" : "#D4A017" }}
+                                        style={{ color: "#D4A017" }}
                                     >
                                         Our Philosophy
                                     </span>
                                     <h2
                                         className="scroll-reveal delay-1 text-3xl sm:text-4xl lg:text-5xl font-black mb-6 leading-tight"
-                                        style={{ color: isDark ? "rgba(255,253,245,0.9)" : "rgba(26,10,46,0.9)" }}
+                                        style={{ color: "rgba(26,10,46,0.9)" }}
                                     >
                                         Technology as{" "}
                                         <span className="gold-text">Seva</span>
@@ -561,19 +545,19 @@ export default function IndianDemo() {
                                     <blockquote
                                         className="scroll-reveal delay-2 text-lg sm:text-xl mb-6 leading-relaxed italic"
                                         style={{
-                                            color: isDark ? "rgba(255,253,245,0.6)" : "rgba(26,10,46,0.65)",
-                                            borderLeft: `3px solid ${isDark ? "rgba(212,160,23,0.3)" : "rgba(212,160,23,0.4)"}`,
+                                            color: "rgba(26,10,46,0.65)",
+                                            borderLeft: "3px solid rgba(212,160,23,0.4)",
                                             paddingLeft: "1.5rem",
                                         }}
                                     >
                                         "The best way to find yourself is to lose yourself in the service of others."
-                                        <span className="block mt-2 text-sm not-italic font-semibold" style={{ color: isDark ? "#F5D060" : "#D4A017" }}>
+                                        <span className="block mt-2 text-sm not-italic font-semibold" style={{ color: "#D4A017" }}>
                                             — Mahatma Gandhi
                                         </span>
                                     </blockquote>
                                     <p
                                         className="scroll-reveal delay-3 text-base leading-relaxed mb-8"
-                                        style={{ color: isDark ? "rgba(255,253,245,0.45)" : "rgba(26,10,46,0.55)" }}
+                                        style={{ color: "rgba(26,10,46,0.55)" }}
                                     >
                                         BrainByte is built on the principle that advanced AI should serve every citizen, regardless of language, literacy, or location. Our tools are designed with deep cultural sensitivity, multilingual support for 22+ Indian languages, and an unwavering commitment to accessibility and privacy.
                                     </p>
@@ -585,9 +569,9 @@ export default function IndianDemo() {
                                                 key={pill}
                                                 className="px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 hover:scale-105"
                                                 style={{
-                                                    background: isDark ? "rgba(212,160,23,0.08)" : "rgba(212,160,23,0.06)",
-                                                    border: `1px solid ${isDark ? "rgba(212,160,23,0.15)" : "rgba(212,160,23,0.2)"}`,
-                                                    color: isDark ? "#F5D060" : "#B8860B",
+                                                    background: "rgba(212,160,23,0.06)",
+                                                    border: "1px solid rgba(212,160,23,0.2)",
+                                                    color: "#B8860B",
                                                 }}
                                             >
                                                 {pill}
@@ -601,7 +585,7 @@ export default function IndianDemo() {
 
                     {/* ═══ HEARTBEAT TRANSITION ══════════════════════════════ */}
                     <section className="scroll-reveal">
-                        <HeartbeatPulse isDark={isDark} />
+                        <HeartbeatPulse />
                     </section>
 
                     {/* ═══ BOTTOM CTA ═════════════════════════════════════════ */}
@@ -612,13 +596,13 @@ export default function IndianDemo() {
                             </div>
                             <h2
                                 className="scroll-reveal delay-1 text-2xl sm:text-3xl lg:text-4xl font-black mt-8 mb-4"
-                                style={{ color: isDark ? "rgba(255,253,245,0.9)" : "rgba(26,10,46,0.9)" }}
+                                style={{ color: "rgba(26,10,46,0.9)" }}
                             >
                                 Ready to experience <span className="gold-text">Digital India</span>?
                             </h2>
                             <p
                                 className="scroll-reveal delay-2 text-base sm:text-lg mb-8"
-                                style={{ color: isDark ? "rgba(255,253,245,0.45)" : "rgba(26,10,46,0.55)" }}
+                                style={{ color: "rgba(26,10,46,0.55)" }}
                             >
                                 Join millions of citizens using AI to simplify their daily lives.
                             </p>
@@ -643,8 +627,8 @@ export default function IndianDemo() {
                 <footer
                     className="border-t py-8 sm:py-10"
                     style={{
-                        borderColor: isDark ? "rgba(212,160,23,0.1)" : "rgba(212,160,23,0.15)",
-                        background: isDark ? "rgba(13,2,33,0.85)" : "rgba(255,253,245,0.85)",
+                        borderColor: "rgba(212,160,23,0.15)",
+                        background: "rgba(255,253,245,0.9)",
                         backdropFilter: "blur(16px)",
                     }}
                 >
@@ -654,14 +638,14 @@ export default function IndianDemo() {
                                 <LotusSVG size={28} />
                                 <span
                                     className="font-bold text-lg"
-                                    style={{ color: isDark ? "rgba(255,253,245,0.7)" : "rgba(26,10,46,0.7)" }}
+                                    style={{ color: "rgba(26,10,46,0.7)" }}
                                 >
                                     BrainByte
                                 </span>
                             </div>
                             <p
                                 className="text-sm font-medium"
-                                style={{ color: isDark ? "rgba(255,253,245,0.35)" : "rgba(26,10,46,0.4)" }}
+                                style={{ color: "rgba(26,10,46,0.4)" }}
                             >
                                 © 2026 BrainByte — Made with ❤️ in India
                             </p>

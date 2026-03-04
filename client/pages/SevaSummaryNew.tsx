@@ -132,10 +132,10 @@ Ask specific questions about values, results, or what they mean for your health.
       <div className="pt-20 px-4 sm:px-6 lg:px-8 pb-8">
         {/* Header */}
         <div className="max-w-7xl mx-auto mb-6">
-          <h1 className="text-4xl font-bold mb-2 text-white">
+          <h1 className="text-4xl font-bold mb-2 text-slate-800">
             {getTranslation(language, "features.sevasummary.title")}
           </h1>
-          <p className="text-blue-200 text-lg mb-6">
+          <p className="text-slate-600 text-lg mb-6">
             {getTranslation(language, "features.sevasummary.subtitle")}
           </p>
 
@@ -194,8 +194,8 @@ Ask specific questions about values, results, or what they mean for your health.
                     <div
                       key={msg.id}
                       className={`text-sm p-3 rounded-lg leading-relaxed ${msg.type === "user"
-                          ? "bg-card-green/20 text-foreground ml-4 border-l-2 border-card-green"
-                          : "bg-muted text-foreground mr-2"
+                        ? "bg-card-green/20 text-foreground ml-4 border-l-2 border-card-green"
+                        : "bg-muted text-foreground mr-2"
                         }`}
                     >
                       {msg.content}
@@ -234,7 +234,7 @@ Ask specific questions about values, results, or what they mean for your health.
                   <p className="font-semibold text-sm text-card-green">Chat with Health Guide</p>
                 </div>
                 <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} onKeyPress={(e) => e.key === "Enter" && handleSendMessage()} placeholder={t("seva.askHint")} disabled={!uploadedFile} className="flex-1 bg-muted/50 border border-card-green/20 rounded-lg px-4 py-3 text-sm mb-3 outline-none placeholder-muted-foreground disabled:opacity-50 focus:border-card-green focus:ring-1 focus:ring-card-green/30 transition-all" />
-                <button onClick={handleSendMessage} title="Send message" aria-label="Send message" disabled={!uploadedFile || !inputValue.trim() || isLoading} className="bg-gradient-to-r from-card-green to-card-green/90 hover:from-card-green/90 hover:to-card-green/80 text-white px-4 py-3 rounded-lg text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg">
+                <button onClick={handleSendMessage} title="Send message" aria-label="Send message" disabled={!uploadedFile || !inputValue.trim() || isLoading} className="bg-gradient-to-r from-card-green to-card-green/90 hover:from-card-green/90 hover:to-card-green/80 text-slate-800 px-4 py-3 rounded-lg text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg">
                   <Send className="w-4 h-4" />
                   {getTranslation(language, "seva.send")}
                 </button>

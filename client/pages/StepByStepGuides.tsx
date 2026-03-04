@@ -212,14 +212,14 @@ export default function StepByStepGuides() {
         <>
           {/* Header */}
           <div className="mb-12">
-            <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">Step-by-Step Government Guides</h1>
+            <h1 className="text-4xl sm:text-5xl font-bold text-slate-800 mb-4">Step-by-Step Government Guides</h1>
             <p className="text-blue-200 text-lg">Search for the government process you need help with and we'll guide you through it</p>
           </div>
 
           {/* Search Bar */}
           <div className="mb-12">
             <div className="relative">
-              <input type="text" placeholder="Search for processes (e.g., driving license, PAN card, passport)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full px-6 py-4 rounded-xl bg-white text-slate-900 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
+              <input type="text" placeholder="Search for processes (e.g., driving license, PAN card, passport)..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="w-full px-6 py-4 rounded-xl bg-white text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-400 text-lg" />
               <span className="absolute right-6 top-4 text-2xl">🔍</span>
             </div>
           </div>

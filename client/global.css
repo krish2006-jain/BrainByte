@@ -8,37 +8,10 @@
 @tailwind utilities;
 
 /* ============================================================
-   AI-THEMED ANIMATIONS
+   KEYFRAME ANIMATIONS — Light Professional Theme
    ============================================================ */
 
-@keyframes aiGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.4), 0 0 40px rgba(99, 102, 241, 0.15);
-  }
-
-  50% {
-    box-shadow: 0 0 40px rgba(99, 102, 241, 0.7), 0 0 80px rgba(99, 102, 241, 0.3);
-  }
-}
-
-@keyframes floatUp {
-
-  0%,
-  100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-
-  33% {
-    transform: translateY(-14px) rotate(1deg);
-  }
-
-  66% {
-    transform: translateY(-7px) rotate(-1deg);
-  }
-}
-
+/* Slide in from below */
 @keyframes slideInUp {
   from {
     opacity: 0;
@@ -51,6 +24,7 @@
   }
 }
 
+/* Slide in from above */
 @keyframes slideInDown {
   from {
     opacity: 0;
@@ -63,6 +37,7 @@
   }
 }
 
+/* Simple fade in */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -73,6 +48,7 @@
   }
 }
 
+/* Scale in — modals, dropdowns */
 @keyframes scaleIn {
   from {
     opacity: 0;
@@ -85,160 +61,76 @@
   }
 }
 
-@keyframes gradientShift {
+/* Scroll-reveal: fade + slide up */
+@keyframes fadeSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
 
-  0%,
-  100% {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient drift for backgrounds */
+@keyframes gradientDrift {
+  0% {
     background-position: 0% 50%;
   }
 
   50% {
     background-position: 100% 50%;
   }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
+/* Shimmer sweep on buttons */
 @keyframes shimmer {
   0% {
-    transform: translateX(-100%);
+    left: -75%;
   }
 
   100% {
-    transform: translateX(100%);
+    left: 125%;
   }
 }
 
-/* Orb drift */
-@keyframes orb {
+/* Soft blob float */
+@keyframes blobFloat {
 
   0%,
   100% {
-    transform: translate(0, 0);
-    opacity: 0.25;
+    transform: translate(0, 0) scale(1);
   }
 
-  25% {
-    transform: translate(120px, -70px);
-    opacity: 0.4;
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
   }
 
-  50% {
-    transform: translate(60px, 130px);
-    opacity: 0.5;
-  }
-
-  75% {
-    transform: translate(-100px, 60px);
-    opacity: 0.35;
-  }
-}
-
-/* Orb drift — mirrored */
-@keyframes orb2 {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-    opacity: 0.2;
-  }
-
-  25% {
-    transform: translate(-100px, 80px);
-    opacity: 0.35;
-  }
-
-  50% {
-    transform: translate(-60px, -120px);
-    opacity: 0.45;
-  }
-
-  75% {
-    transform: translate(90px, -50px);
-    opacity: 0.3;
-  }
-}
-
-/* Neural node pulse */
-@keyframes neuralPulse {
-
-  0%,
-  100% {
-    opacity: 0.15;
-    transform: scale(1);
-  }
-
-  50% {
-    opacity: 0.55;
-    transform: scale(1.5);
-  }
-}
-
-/* Scan line sweep */
-@keyframes scanLine {
-  0% {
-    top: -2%;
-    opacity: 0;
-  }
-
-  5% {
-    opacity: 1;
-  }
-
-  95% {
-    opacity: 0.6;
-  }
-
-  100% {
-    top: 102%;
-    opacity: 0;
-  }
-}
-
-/* Rotating border / spinner */
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
   }
 }
 
 /* Typing cursor blink */
-@keyframes blink {
+@keyframes blinkCaret {
 
   0%,
   100% {
-    opacity: 1;
+    border-color: #8B7FE8;
   }
 
   50% {
-    opacity: 0;
+    border-color: transparent;
   }
 }
 
-/* Data stream lines */
-@keyframes dataStream {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-
-  10% {
-    opacity: 0.6;
-  }
-
-  90% {
-    opacity: 0.4;
-  }
-
-  100% {
-    transform: translateY(100vh);
-    opacity: 0;
-  }
-}
-
-/* Gradient text animation */
+/* Gradient text shift */
 @keyframes textGradient {
 
   0%,
@@ -251,31 +143,14 @@
   }
 }
 
-/* Input focus glow */
-@keyframes inputGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.4);
+/* Rotating spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
   }
 
-  50% {
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.7), 0 0 16px rgba(99, 102, 241, 0.3);
-  }
-}
-
-/* Progress bar animation */
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-
-  50% {
-    width: 70%;
-  }
-
-  100% {
-    width: 100%;
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -289,60 +164,6 @@
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
-  }
-}
-
-/* Smooth hover lift */
-@keyframes hoverLift {
-  0% {
-    transform: translateY(0);
-  }
-
-  100% {
-    transform: translateY(-4px);
-  }
-}
-
-/* Card glow on hover */
-@keyframes cardGlow {
-
-  0%,
-  100% {
-    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
-  }
-
-  50% {
-    box-shadow: 0 0 20px 4px rgba(99, 102, 241, 0.3);
-  }
-}
-
-/* Button ripple effect */
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-
-  100% {
-    transform: scale(4);
-    opacity: 0;
-  }
-}
-
-/* Success checkmark */
-@keyframes successCheck {
-  0% {
-    transform: scale(0) rotate(-45deg);
-    opacity: 0;
-  }
-
-  50% {
-    transform: scale(1.2);
-  }
-
-  100% {
-    transform: scale(1) rotate(0);
-    opacity: 1;
   }
 }
 
@@ -365,26 +186,125 @@
   0%,
   100% {
     opacity: 1;
-    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+    box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.5);
   }
 
   50% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+  }
+}
+
+/* Button ripple */
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
+
+/* Success check */
+@keyframes successCheck {
+  0% {
+    transform: scale(0) rotate(-45deg);
+    opacity: 0;
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
+}
+
+/* Badge bounce */
+@keyframes badgeBounce {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.2);
+  }
+}
+
+/* Skeleton shimmer */
+@keyframes skeletonShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Error message slide */
+@keyframes errorSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Float particle (for Indian demo) */
+@keyframes floatParticle {
+
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+    opacity: 0.5;
+  }
+
+  25% {
+    transform: translateY(-15px) translateX(8px);
     opacity: 0.8;
-    box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+  }
+
+  50% {
+    transform: translateY(-5px) translateX(-5px);
+    opacity: 0.6;
+  }
+
+  75% {
+    transform: translateY(-20px) translateX(3px);
+    opacity: 0.7;
+  }
+}
+
+/* Progress bar */
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  100% {
+    width: 100%;
   }
 }
 
 /* ============================================================
-   ANIMATION CLASSES
+   ANIMATION UTILITY CLASSES
    ============================================================ */
-
-.animate-ai-glow {
-  animation: aiGlow 3s ease-in-out infinite;
-}
-
-.animate-float {
-  animation: floatUp 6s ease-in-out infinite;
-}
 
 .animate-slide-up {
   animation: slideInUp 0.6s ease forwards;
@@ -402,42 +322,8 @@
   animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.animate-gradient {
-  animation: gradientShift 4s ease infinite;
-  background-size: 200% 200%;
-}
-
-.animate-spin-slow {
-  animation: spin 8s linear infinite;
-}
-
-.animate-blink {
-  animation: blink 1s step-end infinite;
-}
-
-/* New micro-interaction classes */
-.animate-progress {
-  animation: progress 2s ease-out forwards;
-}
-
 .animate-modal {
   animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-.animate-lift {
-  animation: hoverLift 0.3s ease forwards;
-}
-
-.animate-glow {
-  animation: cardGlow 2s ease-in-out infinite;
-}
-
-.animate-ripple {
-  animation: ripple 0.6s ease-out;
-}
-
-.animate-check {
-  animation: successCheck 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .animate-toast {
@@ -448,101 +334,78 @@
   animation: pulseGlow 2s ease-in-out infinite;
 }
 
-/* Orb animation selectors */
-[data-ai="orb1"] {
-  animation: orb 22s infinite ease-in-out !important;
+.animate-ripple {
+  animation: ripple 0.6s ease-out;
 }
 
-[data-ai="orb2"] {
-  animation: orb2 28s infinite ease-in-out 4s !important;
+.animate-check {
+  animation: successCheck 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-[data-ai="orb3"] {
-  animation: orb 32s infinite ease-in-out 10s !important;
+.animate-progress {
+  animation: progress 2s ease-out forwards;
 }
 
-[data-ai="orb4"] {
-  animation: orb2 18s infinite ease-in-out 7s !important;
+/* Scroll reveal */
+.scroll-reveal,
+.scroll-reveal-left,
+.scroll-reveal-scale {
+  opacity: 0;
 }
 
-/* Scan line element */
-[data-ai="scan"] {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.6), transparent);
-  animation: scanLine 8s linear infinite;
-  pointer-events: none;
+.scroll-reveal.visible,
+.scroll-reveal.is-visible {
+  animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-/* Neural nodes */
-[data-ai^="node"] {
-  animation: neuralPulse 3s ease-in-out infinite;
+.scroll-reveal-left.is-visible {
+  animation: fadeSlideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-[data-ai="node2"] {
-  animation-delay: 1s;
+.scroll-reveal-scale.is-visible {
+  animation: scaleIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-[data-ai="node3"] {
-  animation-delay: 2s;
+/* Stagger children */
+.scroll-reveal.visible:nth-child(2),
+.scroll-reveal.is-visible:nth-child(2) {
+  animation-delay: 100ms;
 }
 
-[data-ai="node4"] {
-  animation-delay: 0.5s;
+.scroll-reveal.visible:nth-child(3),
+.scroll-reveal.is-visible:nth-child(3) {
+  animation-delay: 200ms;
 }
 
-[data-ai="node5"] {
-  animation-delay: 1.5s;
+/* Stagger delays for Indian Demo */
+.delay-1 {
+  animation-delay: 100ms !important;
 }
 
-[data-ai="node6"] {
-  animation-delay: 2.5s;
+.delay-2 {
+  animation-delay: 200ms !important;
 }
 
-/* Data stream lines */
-[data-ai^="stream"] {
-  position: absolute;
-  width: 1px;
-  height: 80px;
-  background: linear-gradient(to bottom, transparent, rgba(99, 102, 241, 0.6), transparent);
-  animation: dataStream 6s linear infinite;
+.delay-3 {
+  animation-delay: 300ms !important;
 }
 
-[data-ai="stream2"] {
-  animation-delay: 2s;
-  animation-duration: 7s;
+.delay-4 {
+  animation-delay: 400ms !important;
 }
 
-[data-ai="stream3"] {
-  animation-delay: 4s;
-  animation-duration: 5s;
+/* Reveal-up helper (Indian Demo) */
+.reveal-up {
+  animation: fadeSlideUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-[data-ai="stream4"] {
-  animation-delay: 1s;
-  animation-duration: 8s;
-}
+/* ============================================================
+   INTERACTIVE ELEMENT STYLES
+   ============================================================ */
 
-/* Glassmorphism */
-.glass {
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.glass-light {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-/* Gradient text utility */
+/* Gradient text */
 .gradient-text {
-  background: linear-gradient(135deg, #6366f1, #8b5cf6, #06b6d4);
+  background: linear-gradient(135deg, #8B7FE8, #A99CEB);
   background-size: 200% 200%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -550,12 +413,15 @@
   animation: textGradient 4s ease infinite;
 }
 
-/* Focus input glow */
-.input-glow:focus {
-  animation: inputGlow 2s ease-in-out infinite;
+/* Glassmorphism — light mode */
+.glass {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-/* Shimmer button effect */
+/* Shimmer button hover */
 .btn-shimmer {
   position: relative;
   overflow: hidden;
@@ -565,117 +431,113 @@
   content: "";
   position: absolute;
   top: 0;
-  left: 0;
-  width: 60%;
+  left: -75%;
+  width: 50%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-  transform: translateX(-100%);
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  transform: skewX(-25deg);
+  transition: left 0.5s ease;
+  pointer-events: none;
 }
 
 .btn-shimmer:hover::after {
-  animation: shimmer 0.6s ease;
+  left: 125%;
+}
+
+/* Skeleton loader */
+.skeleton {
+  background: linear-gradient(90deg, #F4F4F6 25%, #D6D6DE 50%, #F4F4F6 75%);
+  background-size: 200% 100%;
+  animation: skeletonShimmer 1.5s ease infinite;
+  border-radius: 8px;
+}
+
+/* Focus ring glow for inputs */
+.input-glow:focus {
+  outline: none;
+  border-color: #818CF8;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 0 12px rgba(99, 102, 241, 0.08);
+  background: #FFFFFF;
+}
+
+/* Error messages */
+.error-message {
+  animation: errorSlide 0.25s ease;
+  color: #DC2626;
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Typing cursor */
+.typing-cursor {
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: #8B7FE8;
+  margin-left: 2px;
+  animation: blinkCaret 0.75s step-end infinite;
+  vertical-align: text-bottom;
 }
 
 /* ============================================================
-   CSS VARIABLES (THEME TOKENS)
+   CSS VARIABLES — Modern Lavender Purple SaaS Theme
    ============================================================ */
 
 @layer base {
   :root {
-    /* Dark mode (default) */
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
+    /* Page background: #FAF9F7 (warm creamish white) */
+    --background: 40 14% 97%;
+    /* Primary text: #1F1F24 (near-black with subtle warm cast) */
+    --foreground: 240 10% 13%;
 
-    --card: 224 71% 7%;
-    --card-foreground: 213 31% 91%;
+    /* Card surfaces: #EDEDF0 (light neutral gray) */
+    --card: 240 10% 94%;
+    --card-foreground: 240 10% 13%;
 
-    --popover: 224 71% 7%;
-    --popover-foreground: 213 31% 91%;
+    /* Main container surface: #F4F4F6 (soft off-white) */
+    --popover: 240 10% 96%;
+    --popover-foreground: 240 10% 13%;
 
-    --primary: 213 31% 91%;
-    --primary-foreground: 224 71% 4%;
+    /* Primary accent: #8B7FE8 (soft purple) */
+    --primary: 247 69% 70%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 47% 15%;
-    --secondary-foreground: 213 31% 91%;
+    /* Secondary accent: #A99CEB (lavender highlight) */
+    --secondary: 249 64% 77%;
+    --secondary-foreground: 240 10% 13%;
 
-    --muted: 223 47% 18%;
-    --muted-foreground: 215 20% 60%;
+    /* Muted / subtle areas */
+    --muted: 240 10% 86%;
+    /* Secondary text: #6B6B75 */
+    --muted-foreground: 240 6% 44%;
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 213 31% 91%;
-
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 213 31% 91%;
-
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --ring: 224 76% 60%;
-
-    --radius: 0.6rem;
-
-    /* Feature card colors */
-    --card-blue: 224 76% 60%;
-    --card-blue-dark: 224 76% 45%;
-    --card-green: 142 71% 45%;
-    --card-green-dark: 142 71% 32%;
-    --card-orange: 39 100% 56%;
-    --card-orange-dark: 39 100% 42%;
-
-    --sidebar-background: 224 71% 5%;
-    --sidebar-foreground: 213 31% 88%;
-    --sidebar-primary: 224 76% 60%;
-    --sidebar-primary-foreground: 213 31% 91%;
-    --sidebar-accent: 222 47% 15%;
-    --sidebar-accent-foreground: 213 31% 91%;
-    --sidebar-border: 216 34% 17%;
-    --sidebar-ring: 224 76% 60%;
-  }
-
-  /* Light mode — applied when html has .light class */
-  .light {
-    --background: 220 33% 97%;
-    --foreground: 224 71% 8%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 224 71% 8%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 224 71% 8%;
-
-    --primary: 224 71% 8%;
-    --primary-foreground: 220 33% 97%;
-
-    --secondary: 220 14% 92%;
-    --secondary-foreground: 224 71% 8%;
-
-    --muted: 220 14% 90%;
-    --muted-foreground: 220 14% 44%;
-
-    --accent: 220 14% 90%;
-    --accent-foreground: 224 71% 8%;
+    /* Accent (hover states) */
+    --accent: 249 64% 77%;
+    --accent-foreground: 240 10% 13%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 220 33% 97%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 87%;
-    --input: 220 13% 87%;
-    --ring: 224 76% 52%;
+    /* Borders / dividers: #D6D6DE */
+    --border: 240 10% 86%;
+    --input: 240 10% 86%;
+    /* Focus ring: soft purple */
+    --ring: 247 69% 70%;
 
-    --card-blue: 224 76% 52%;
-    --card-blue-dark: 224 76% 38%;
-    --card-green: 142 71% 40%;
-    --card-green-dark: 142 71% 28%;
-    --card-orange: 39 100% 48%;
-    --card-orange-dark: 39 100% 35%;
+    --radius: 0.75rem;
 
-    --sidebar-background: 220 33% 95%;
-    --sidebar-foreground: 224 71% 8%;
-    --sidebar-primary: 224 76% 52%;
-    --sidebar-primary-foreground: 220 33% 97%;
-    --sidebar-accent: 220 14% 90%;
-    --sidebar-accent-foreground: 224 71% 8%;
-    --sidebar-border: 220 13% 87%;
-    --sidebar-ring: 224 76% 52%;
+    /* Sidebar mappings */
+    --sidebar-background: 240 10% 96%;
+    --sidebar-foreground: 240 10% 13%;
+    --sidebar-primary: 247 69% 70%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 249 64% 77%;
+    --sidebar-accent-foreground: 240 10% 13%;
+    --sidebar-border: 240 10% 86%;
+    --sidebar-ring: 247 69% 70%;
   }
 }
 
@@ -711,4 +573,24 @@
     white-space: pre;
     font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
+}
+
+/* ============================================================
+   INDIAN DEMO – Gold / Saffron text helpers
+   ============================================================ */
+
+.gold-text {
+  background: linear-gradient(135deg, #D4A017, #FFD700, #FF9933);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: textGradient 5s ease infinite;
+}
+
+.saffron-text {
+  background: linear-gradient(135deg, #FF9933, #FF6B00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

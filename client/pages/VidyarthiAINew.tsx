@@ -134,9 +134,9 @@ export default function VidyarthiAINew() {
   };
 
   return (
-    <div className="h-screen w-full bg-slate-900 flex flex-col">
+    <div className="h-screen w-full bg-white flex flex-col">
       {/* Header */}
-      <div className="bg-slate-900 border-b border-slate-700 px-6 py-4 flex items-center justify-between">
+      <div className="bg-white border-b border-slate-200 px-6 py-4 flex items-center justify-between">
         <button
           onClick={() => navigate("/")}
           className="flex items-center gap-2.5 group hover:opacity-80 transition-opacity"
@@ -151,7 +151,7 @@ export default function VidyarthiAINew() {
               }}
             />
             <div className="relative w-full h-full rounded-lg flex items-center justify-center">
-              <span className="text-white font-black text-base leading-none">⚡</span>
+              <span className="text-slate-800 font-black text-base leading-none">⚡</span>
             </div>
           </div>
 
@@ -172,7 +172,7 @@ export default function VidyarthiAINew() {
           </div>
         </button>
         <div className="flex items-center gap-3">
-          <button className="text-slate-400 hover:text-white transition">
+          <button className="text-slate-500 hover:text-slate-800 transition">
             <Zap className="w-5 h-5" />
           </button>
           <select className="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold cursor-pointer">
@@ -180,7 +180,7 @@ export default function VidyarthiAINew() {
             <option>हिंदी</option>
             <option>தமிழ்</option>
           </select>
-          <button className="text-slate-400 hover:text-white transition">
+          <button className="text-slate-500 hover:text-slate-800 transition">
             <MoreVertical className="w-5 h-5" />
           </button>
         </div>
@@ -189,28 +189,28 @@ export default function VidyarthiAINew() {
       {/* Main Content */}
       <div className="flex-1 overflow-hidden flex">
         {/* Left Sidebar - Sources */}
-        <div className="w-56 bg-slate-800 border-r border-slate-700 flex flex-col">
-          <div className="p-4 border-b border-slate-700">
-            <h2 className="text-white font-semibold text-sm">Sources</h2>
+        <div className="w-56 bg-slate-50 border-r border-slate-200 flex flex-col">
+          <div className="p-4 border-b border-slate-200">
+            <h2 className="text-slate-800 font-semibold text-sm">Sources</h2>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-3">
             {/* Add Sources Button */}
             <button
               onClick={() => fileInputRef.current?.click()}
-              className="w-full border border-dashed border-slate-600 hover:border-blue-500 rounded-lg py-3 px-3 text-center transition text-slate-300 hover:text-blue-400 text-sm font-medium flex items-center justify-center gap-2"
+              className="w-full border border-dashed border-slate-300 hover:border-blue-500 rounded-lg py-3 px-3 text-center transition text-slate-600 hover:text-blue-400 text-sm font-medium flex items-center justify-center gap-2"
             >
               <Plus className="w-4 h-4" />
               Add sources
             </button>
 
             {/* Deep Research Suggestion */}
-            <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-sm cursor-pointer hover:border-blue-500 transition">
+            <div className="bg-white border border-slate-300 rounded-lg p-3 text-sm cursor-pointer hover:border-blue-500 transition">
               <div className="flex items-start gap-2">
                 <Zap className="w-4 h-4 text-blue-400 flex-shrink-0 mt-0.5" />
                 <div>
-                  <p className="text-white font-medium">Try Deep Research</p>
-                  <p className="text-slate-400 text-xs">for an in-depth report and new sources!</p>
+                  <p className="text-slate-800 font-medium">Try Deep Research</p>
+                  <p className="text-slate-500 text-xs">for an in-depth report and new sources!</p>
                 </div>
               </div>
             </div>
@@ -221,17 +221,17 @@ export default function VidyarthiAINew() {
               <input
                 type="text"
                 placeholder="Search the web for new"
-                className="w-full bg-slate-700 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full bg-white border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
 
             {/* Filter Buttons */}
             <div className="flex gap-2">
-              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
+              <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-slate-800 text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
                 <div className="w-3 h-3 rounded-full bg-white" />
                 Web
               </button>
-              <button className="flex-1 bg-slate-700 hover:bg-slate-600 text-slate-300 text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
+              <button className="flex-1 bg-white hover:bg-slate-100 text-slate-600 text-xs font-medium py-2 rounded-lg transition flex items-center justify-center gap-1">
                 ⚡ Research
               </button>
             </div>
@@ -239,14 +239,14 @@ export default function VidyarthiAINew() {
             {/* Uploaded Files */}
             {uploadedFiles.length > 0 && (
               <div className="space-y-2">
-                <p className="text-xs text-slate-400 font-semibold px-1">{t("vidyarthi.uploadedDocuments")}</p>
+                <p className="text-xs text-slate-500 font-semibold px-1">{t("vidyarthi.uploadedDocuments")}</p>
                 {uploadedFiles.map((file) => (
                   <div
                     key={file.id}
-                    className="bg-slate-700 border border-slate-600 rounded-lg p-2 text-xs group hover:border-blue-500 transition cursor-pointer"
+                    className="bg-white border border-slate-300 rounded-lg p-2 text-xs group hover:border-blue-500 transition cursor-pointer"
                   >
                     <div className="flex items-center justify-between">
-                      <p className="text-slate-300 truncate font-medium">{file.name}</p>
+                      <p className="text-slate-600 truncate font-medium">{file.name}</p>
                       <button
                         onClick={() => handleRemoveFile(file.id)}
                         className="text-slate-500 hover:text-red-400 opacity-0 group-hover:opacity-100 transition"
@@ -261,24 +261,24 @@ export default function VidyarthiAINew() {
             )}
 
             {/* Info Box */}
-            <div className="bg-slate-700 border border-slate-600 rounded-lg p-3 text-xs text-slate-300 mt-auto">
+            <div className="bg-white border border-slate-300 rounded-lg p-3 text-xs text-slate-600 mt-auto">
               <FileText className="w-4 h-4 mb-2 text-slate-500" />
-              <p className="text-slate-400">Saved sources will appear here</p>
+              <p className="text-slate-500">Saved sources will appear here</p>
               <p className="text-slate-500 text-xs mt-1">Click 'Add source' above to add PDFs, websites, text, videos, or audio files. Or import a file directly from Google Drive.</p>
             </div>
           </div>
         </div>
 
         {/* Main Chat Area */}
-        <div className="flex-1 flex flex-col bg-slate-900">
+        <div className="flex-1 flex flex-col bg-white">
           {/* Chat Header */}
-          <div className="border-b border-slate-700 px-6 py-4 flex items-center justify-between">
-            <h1 className="text-white font-semibold">Chat</h1>
+          <div className="border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+            <h1 className="text-slate-800 font-semibold">Chat</h1>
             <div className="flex items-center gap-2">
-              <button className="text-slate-400 hover:text-white transition p-2">
+              <button className="text-slate-500 hover:text-slate-800 transition p-2">
                 <Grid3x3 className="w-5 h-5" />
               </button>
-              <button className="text-slate-400 hover:text-white transition p-2">
+              <button className="text-slate-500 hover:text-slate-800 transition p-2">
                 <MoreVertical className="w-5 h-5" />
               </button>
             </div>
@@ -290,8 +290,8 @@ export default function VidyarthiAINew() {
               <div className="flex-1 flex flex-col items-center justify-center gap-6">
                 <Upload className="w-16 h-16 text-slate-600" />
                 <div className="text-center">
-                  <h2 className="text-white text-lg font-semibold mb-2">{t("vidyarthi.uploadDocuments")}</h2>
-                  <p className="text-slate-400 text-sm mb-6">{t("vidyarthi.uploadHint")}</p>
+                  <h2 className="text-slate-800 text-lg font-semibold mb-2">{t("vidyarthi.uploadDocuments")}</h2>
+                  <p className="text-slate-500 text-sm mb-6">{t("vidyarthi.uploadHint")}</p>
                 </div>
 
                 <button
@@ -334,7 +334,7 @@ export default function VidyarthiAINew() {
                     <div
                       className={`max-w-md px-4 py-3 rounded-lg ${msg.type === "user"
                         ? "bg-blue-600 text-white"
-                        : "bg-slate-700 text-slate-100"
+                        : "bg-white text-slate-800"
                         }`}
                     >
                       <p className="text-sm leading-relaxed">{msg.content}</p>
@@ -346,7 +346,7 @@ export default function VidyarthiAINew() {
                 ))}
                 {isLoading && (
                   <div className="flex justify-start">
-                    <div className="bg-slate-700 text-slate-100 px-4 py-3 rounded-lg flex items-center gap-2">
+                    <div className="bg-white text-slate-800 px-4 py-3 rounded-lg flex items-center gap-2">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       <span className="text-sm">Thinking...</span>
                     </div>
@@ -359,7 +359,7 @@ export default function VidyarthiAINew() {
 
           {/* Input Area */}
           {messages.length > 0 && (
-            <div className="border-t border-slate-700 p-4 bg-slate-900">
+            <div className="border-t border-slate-200 p-4 bg-white">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -367,12 +367,12 @@ export default function VidyarthiAINew() {
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
                   placeholder={t("vidyarthi.askQuestion")}
-                  className="flex-1 px-4 py-3 bg-slate-800 border border-slate-700 text-white placeholder-slate-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <button
                   onClick={handleSendMessage}
                   disabled={isLoading || !inputValue.trim()}
-                  className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-700 text-white rounded-lg transition disabled:cursor-not-allowed"
+                  className="px-4 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-white text-slate-800 rounded-lg transition disabled:cursor-not-allowed"
                 >
                   <Send className="w-5 h-5" />
                 </button>

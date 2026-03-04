@@ -159,16 +159,16 @@ export default function SarkariDost() {
       const fileName = file.name.toLowerCase();
       // remove file extension
       const fileNameNoExt = fileName.replace(/\.[^/.]+$/, "");
-      
+
       requiredDocs.forEach((doc) => {
         if (detected.includes(doc)) return;
-        
+
         // split doc name into words and check if any significant word matches
         const docWords = doc.toLowerCase().split(/[\s\-_]+/).filter(w => w.length > 2);
-        
+
         // check if at least one word from the document name appears in the filename
         const isMatch = docWords.some(word => fileNameNoExt.includes(word));
-        
+
         if (isMatch) {
           detected.push(doc);
         }
@@ -232,10 +232,10 @@ export default function SarkariDost() {
       {/* Main Title with Gold Accent */}
       <div className="mb-16">
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-4xl text-yellow-400">›</span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white">Simplify Your Government Paperwork</h2>
+          <span className="text-4xl text-indigo-600">›</span>
+          <h2 className="text-4xl sm:text-5xl font-bold text-slate-800">Simplify Your Government Paperwork</h2>
         </div>
-        <div className="h-1 w-40 rounded-full bg-yellow-400"></div>
+        <div className="h-1 w-40 rounded-full bg-indigo-600"></div>
       </div>
 
       {/* Feature Cards Grid - 3 boxes */}
@@ -442,16 +442,16 @@ export default function SarkariDost() {
       </div>
 
       {/* Footer links */}
-      <div className="border-t border-slate-700 pt-12 pb-12">
+      <div className="border-t border-slate-200 pt-12 pb-12 mt-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
           <div>
-            <p className="text-slate-400 font-semibold cursor-pointer hover:text-white transition-colors">FAQS</p>
+            <p className="text-slate-500 font-semibold cursor-pointer hover:text-indigo-600 transition-colors">FAQS</p>
           </div>
           <div>
-            <p className="text-slate-400 font-semibold cursor-pointer hover:text-white transition-colors">Contact Support</p>
+            <p className="text-slate-500 font-semibold cursor-pointer hover:text-indigo-600 transition-colors">Contact Support</p>
           </div>
           <div>
-            <p className="text-slate-400 font-semibold cursor-pointer hover:text-white transition-colors">Privacy Policy</p>
+            <p className="text-slate-500 font-semibold cursor-pointer hover:text-indigo-600 transition-colors">Privacy Policy</p>
           </div>
         </div>
       </div>
