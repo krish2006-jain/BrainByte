@@ -338,6 +338,32 @@ export default function Landing() {
                   ))}
                 </div>
 
+                {/* Technologies Used */}
+                <div className="mb-16 scroll-reveal is-visible delay-2">
+                  <h2 className="text-xl font-bold text-center text-foreground mb-8">
+                    Built With Modern Technologies
+                  </h2>
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    {[
+                      { name: "React", icon: "⚛️", desc: "UI Framework" },
+                      { name: "Vite", icon: "⚡", desc: "Build Tool" },
+                      { name: "TypeScript", icon: "🔷", desc: "Type Safety" },
+                      { name: "Tailwind CSS", icon: "🎨", desc: "Styling" },
+                      { name: "Node.js", icon: "🟢", desc: "Backend" },
+                      { name: "Gemini AI", icon: "✨", desc: "AI Engine" },
+                    ].map(tech => (
+                      <div
+                        key={tech.name}
+                        className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border/50 hover:border-border hover:shadow-md transition-all duration-300"
+                      >
+                        <span className="text-2xl">{tech.icon}</span>
+                        <span className="text-sm font-semibold text-foreground">{tech.name}</span>
+                        <span className="text-xs text-muted-foreground">{tech.desc}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 {/* About strip */}
                 <div className="rounded-2xl p-8 text-center bg-card border border-border scroll-reveal is-visible delay-2">
                   <div className="flex items-center justify-center gap-2 mb-3">
